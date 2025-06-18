@@ -1,0 +1,44 @@
+.container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background:rgba(242, 229, 204, 1) url('/src/assets/background-image.jpg') no-repeat center;
+    background-size: cover;
+}
+.header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 41px;
+}
+.logo{
+    height: 180px;
+    width: 86px;
+}
+.titleHeader{
+    font-weight: 800;
+    font-size: 64px;
+    color: rgba(43, 42, 41, 1);
+}
+.subtitleHeader{
+    font-weight: 800;
+    font-size: 58px;
+    color: rgba(81, 79, 77, 1);
+}
+.buttonsAndText{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+.text{
+    font-weight: 400;
+    font-size: 40px;
+    color: rgba(81, 79, 77, 1);
+    letter-spacing: 4.8px;
+}
