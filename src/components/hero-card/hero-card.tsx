@@ -1,56 +1,29 @@
 import { useNavigate } from 'react-router';
 import { Nav } from '../../nav.ts';
+import type { Hero } from '../../types/hero-type.tsx';
+import { FALLBACK_IMAGE_URL } from '../../constans/constans.ts';
 
+type Props = {
+    hero: Hero
+}
 
-
-import { useEffect, useState } from 'react';
-
-export type Hero = {
-    id: number;
-    name: string;
-    image: string;
-};
-
-export function HeroCard() {
+export function HeroCard(props:Props) {
     const navigate = useNavigate();
-    const [hero, setHero] = useState<Hero | null>(null);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('https://book-memory-sections-out.itlabs.top/api/members');
-                if (!response.ok) {
-                    console.error(`HTTP error! status: ${response.status}`);
-                    return;
-                }
-
-                const data = await response.json();
-                if (Array.isArray(data) && data.length > 0) {
-                    setHero(data[0]);
-                } else {
-                    console.warn('Данные с сервера пришли пустыми или не в формате массива.');
-                }
-            } catch (error) {
-                console.error('Ошибка при загрузке данных героя:', error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    if (!hero) {
+    if (!props.hero) {
         return <p>Загрузка...</p>;
     }
 
     return (
         <div
-            onClick={() => navigate(Nav.hero(hero.id))}
+            onClick={() => navigate(Nav.hero(props.hero.id))}
         >
             <img
-                src={hero.image}
-                alt={hero.name}
-                style={{ maxWidth: '200px', maxHeight: '200px', objectFit: 'cover' }}
+                src={FALLBACK_IMAGE_URL}
+                alt={props.hero.name}
+                style={{ maxWidth: '200px', maxHeight: '200px'}}
             />
+
         </div>
     );
 }

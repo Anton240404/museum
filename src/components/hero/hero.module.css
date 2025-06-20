@@ -1,0 +1,70 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.heroImage {
+    width: 428px;
+    height: 571px;
+}
+
+.line {
+    width: 100%;
+    height: 2px;
+    background-color: #8B8785;
+    margin-top: 40px;
+    margin-bottom: 44px;
+}
+.heroInfo{
+    margin-bottom: 40px;
+}
+
+.textName {
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 100%;
+    color: rgba(43, 42, 41, 1);
+}
+.infoContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 72px;
+}
+
+.upText{
+    font-weight: 700;
+    font-style: italic;
+    font-size: 32px;
+    line-height: 100%;
+    letter-spacing: 0;
+    color: rgba(121, 36, 38, 1);
+    margin-top: 40px;
+}
+.downText{
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0;
+    color: rgba(43, 42, 41, 1);
+}
+.infoPlace{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.buttonsContainer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 144px;
+}
+.friendsInfo{
+    margin-top: 16px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0;
+}

@@ -3,8 +3,31 @@ import { Button } from '../../UI/button/button.tsx';
 import SearchIcon from '/src/assets/search.svg?react';
 import FilterIcon from '/src/assets/filter.svg?react';
 import { HeroCard } from '../hero-card/hero-card.tsx';
+import { useEffect, useState } from 'react';
+import type { Hero } from '../../types/hero-type.tsx';
+
+
 
 export function Home() {
+    const [heroes, setHeroes] = useState<Hero[]>([]);
+
+    useEffect(() => {
+        fetch('https://book-memory-sections-out.itlabs.top/api/members')
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log('Data from API:', data);
+                setHeroes(data);
+            })
+            .catch((error) => {
+                console.error('Ошибка при загрузке данных:', error);
+            });
+    }, []);
+
     return (
         <>
             <div className={css.buttonsAndText}>
@@ -23,9 +46,9 @@ export function Home() {
                 <img src="/src/assets/wall-of-memory.svg" alt="stenapamyati" />
             </div>
             <div className={css.veteransGrid}>
-                {heroes.map(hero => (
-                    <HeroCard key={hero.id} hero={hero} />
-                ))}
+                {heroes.map(hero => {
+                    return <HeroCard key={hero.id} hero={hero} />;
+                })}
             </div>
         </>
     );

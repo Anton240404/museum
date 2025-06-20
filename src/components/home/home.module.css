@@ -7,6 +7,7 @@
     align-items: flex-start;
     background:rgba(242, 229, 204, 1) url('/src/assets/background-image.jpg') no-repeat center;
     background-size: cover;
+    padding: 72px 80px;
 }
 .header{
     display: flex;
@@ -14,6 +15,7 @@
     align-items: center;
     justify-content: center;
     gap: 41px;
+
 }
 .logo{
     height: 180px;

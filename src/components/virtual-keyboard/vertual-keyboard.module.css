@@ -1,0 +1,71 @@
+.keyboard {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    max-width: 800px;
+    width: 90%;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.key {
+    background-color: #f6f6f6;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 12px 18px;
+    margin: 6px;
+    min-width: 48px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.key:hover {
+    background-color: #e0e0e0;
+}
+
+.key:active {
+    background-color: #cccccc;
+}
+
+.key[data-key='Enter'] {
+    background-color: #D63F3F;
+    color: white;
+}
+
+.key[data-key='Enter']:hover {
+    background-color: #c93636;
+}
+
+.key[data-key='⌫'],
+.key[data-key='🌐'],
+.key[data-key='&123'],
+.key[data-key='ABC'],
+.key[data-key='АБВ'] {
+    background-color: #eaeaea;
+}
+
+.close {
+    margin: 10px auto 0;
+    background-color: transparent;
+    color: #222;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    font-size: 20px;
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+    display: block;
+}
