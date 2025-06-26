@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import type { Hero as HeroType } from '../../types/hero-type.tsx';
 import { API_BASE_URL, FALLBACK_IMAGE_URL } from '../../constans/constans.ts';
 import css from './hero.module.css';
 import { Button } from '../../UI/button/button.tsx';
 import MedalIcon from '/src/assets/medal.svg?react';
 
-
-export function Hero() {
-    const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
-    const [heroData, setHeroData] = useState<HeroType | null>(null);
-    const [, setLoading] = useState(true);
-    const [, setError] = useState<string | null>(null);
+const useLoadHero = (id: string) => {
+    const [hero, setHero] = useState<HeroType | null>(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (!id) {
@@ -23,7 +20,7 @@ export function Hero() {
 
         setLoading(true);
         setError(null);
-        setHeroData(null);
+        setHero(null);
 
         fetch(`${API_BASE_URL}/${id}`)
             .then(response => {
@@ -33,7 +30,7 @@ export function Hero() {
                 return response.json();
             })
             .then((data: HeroType) => {
-                setHeroData(data);
+                setHero(data);
             })
             .catch(err => {
                 if (err instanceof Error) {
@@ -48,96 +45,122 @@ export function Hero() {
             });
 
     }, [id]);
-    console.log('Debug heroData:', heroData);
 
-     const calledUponDateInfo = !heroData?.calledUponDate ? 'Неизвестно' : heroData?.calledUponDate;
-     const placeDeathInfo = !heroData?.placeDeath ? 'Неизвестно' : heroData?.placeDeath;
-     const howDieInfo = !heroData?.howDie ? 'Неизвестно' : heroData?.howDie;
-     const ranksInfo = !heroData?.ranks ? 'Неизвестно' : heroData?.ranks;
-     const cityInfo = !heroData?.city ? 'Неизвестно' : heroData?.city;
-     const yearStartAtInfo = !heroData?.yearStartAt ? 'Неизвестно' : heroData?.yearStartAt;
-     const yearEndAtInfo = !heroData?.yearEndAt ? 'Неизвестно' : heroData?.yearEndAt;
+    return {
+        hero,
+        loading,
+        error,
+    };
+};
+
+
+export function Hero() {
+    // !
+    const { id: _id } = useParams<{ id: string }>();
+    const id = _id as string;
+
+    const navigate = useNavigate();
+    const { hero, loading, error } = useLoadHero(id);
 
 
     const handleNextHero = () => {
-        if (id) {
-            const currentId = parseInt(id, 10);
-            if (!isNaN(currentId)) {
-                navigate(`/hero/${currentId + 1}`);
-            }
+        const currentId = Number(id);
+        if (!isNaN(currentId)) {
+            navigate(`/hero/${currentId + 1}`);
         }
     };
 
     const handleGoHome = () => {
         navigate('/');
-    }
+    };
+
+    const renderBody = () => {
+        if (loading) {
+            return <p className={`${css.loadingAndErrorText} ${css.loading}`}>Загрузка...</p>;
+        }
+        if (error) {
+            return <p className={`${css.loadingAndErrorText} ${css.error}`}>Произошла ошибка</p>
+        }
+
+        return (
+            <div>
+                <h2 className={css.textName}>{hero?.name}</h2>
+                <div className={css.infoContainer}>
+                    <div className={css.infoPlace}>
+                        <p className={css.upText}>Год рождения</p>
+                        <p className={css.downText}>{hero?.yearStartAt ? `${hero?.yearStartAt} г.` : 'Неизвестно'}</p>
+                    </div>
+                    <div className={css.infoPlace}>
+                        <p className={css.upText}>Место рождения</p>
+                        <p className={css.downText}>{!hero?.city ? 'Неизвестно' : hero?.city}</p>
+                    </div>
+                </div>
+
+                <div className={css.infoContainer}>
+                    <div className={css.infoPlace}>
+                        <p className={css.upText}>Звание</p>
+                        <p className={css.downText}>{hero?.ranks || 'Неизвестно'}</p>
+                    </div>
+                    <div className={css.infoPlace}>
+                        <p className={css.upText}>Призван в армию</p>
+                        <p className={css.downText}>{!hero?.calledUponDate ? 'Неизвестно' : hero?.calledUponDate}</p>
+                    </div>
+                    <div className={css.infoPlace}>
+                        <p className={css.upText}>Как погиб</p>
+                        <p className={css.downText}>{!hero?.howDie ? 'Неизвестно' : hero?.howDie}</p>
+                    </div>
+                </div>
+                <div className={css.infoContainer}>
+                    <div className={css.infoPlace}>
+                        <p className={css.upText}>Место гибели (захоронение)</p>
+                        <p className={css.downText}>{!hero?.placeDeath ? 'Неизвестно' : hero?.placeDeath}</p>
+                    </div>
+                    <div className={css.infoPlace}>
+                        <p className={css.upText}>Дата гибели</p>
+                        <p className={css.downText}>{ hero?.yearEndAt ? `${hero?.yearEndAt} г.` : 'Неизвестно'}</p>
+                    </div>
+                </div>
+            </div>
+        );
+    };
 
     return (
         <>
             <div className={css.line}></div>
             <div className={css.container}>
                 <div className={css.heroInfo}>
-                    <h2 className={css.textName}>{heroData?.name}</h2>
-                    <div className={css.infoContainer}>
-                        <div className={css.infoPlace}>
-                            <p className={css.upText}>Год рождения</p>
-                            <p className={css.downText}>{`${yearStartAtInfo} г.`}</p>
-                        </div>
-                        <div className={css.infoPlace}>
-                            <p className={css.upText}>Место рождения</p>
-                            <p className={css.downText}>{cityInfo}</p>
-                        </div>
-                    </div>
+                    {renderBody()}
 
-                    <div className={css.infoContainer}>
-                        <div className={css.infoPlace}>
-                            <p className={css.upText}>Звание</p>
-                            <p className={css.downText}>{ranksInfo}</p>
+                    <div>
+                        <div className={css.buttonsContainer}>
+                            <Button
+                                color={'default'}
+                                text={'НА ГЛАВНУЮ'}
+                                size={'md'}
+                                onClick={handleGoHome}
+                            />
+                            <Button
+                                color={'red'}
+                                text={'СЛЕДУЮЩИЙ ГЕРОЙ'}
+                                size={'md'}
+                                icon={<MedalIcon />}
+                                onClick={handleNextHero}
+                            />
                         </div>
-                        <div className={css.infoPlace}>
-                            <p className={css.upText}>Призван в армию</p>
-                            <p className={css.downText}>{calledUponDateInfo}</p>
-                        </div>
-                        <div className={css.infoPlace}>
-                            <p className={css.upText}>Как погиб</p>
-                            <p className={css.downText}>{howDieInfo}</p>
-                        </div>
+                        <p className={css.friendsInfo}>Для стены памяти информация получена от родных, близких и друзей
+                            героев</p>
                     </div>
-                    <div className={css.infoContainer}>
-                        <div className={css.infoPlace}>
-                            <p className={css.upText}>Место гибели (захоронение)</p>
-                            <p className={css.downText}>{placeDeathInfo}</p>
-                        </div>
-                        <div className={css.infoPlace}>
-                            <p className={css.upText}>Дата гибели</p>
-                            <p className={css.downText}>{`${yearEndAtInfo} г.`}</p>
-                        </div>
-                    </div>
-                    <div className={css.buttonsContainer}>
-                        <Button
-                            color={'default'}
-                            text={'НА ГЛАВНУЮ'}
-                            size={'md'}
-                            onClick={handleGoHome}
-                        />
-                        <Button
-                            color={'red'}
-                            text={'СЛЕДУЮЩИЙ ГЕРОЙ'}
-                            size={'md'}
-                            icon={<MedalIcon />}
-                            onClick={handleNextHero}
-                        />
-                    </div>
-                    <p className={css.friendsInfo}>Для стены памяти информация получена от родных, близких и друзей героев</p>
-                </div>
-                <div>
-                    <img
-                        className={css.heroImage}
-                        src={heroData?.image || FALLBACK_IMAGE_URL}
-                        alt={heroData?.name}
-                    />
                 </div>
 
+                {!error && hero && (
+                    <div>
+                        <img
+                            className={css.heroImage}
+                            src={hero?.image || FALLBACK_IMAGE_URL}
+                            alt={hero?.name}
+                        />
+                    </div>
+                )}
             </div>
         </>
     );

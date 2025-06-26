@@ -1,0 +1,52 @@
+.searchInputWrapper {
+    position: relative; /* чтобы можно было позиционировать иконку внутри */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    gap: 144px;
+    width: 100%; /* ширина на всю доступную ширину родителя */
+    height: 100%;
+    max-width: 800px; /* максимальная ширина инпута */
+    background: linear-gradient(180deg, rgba(50, 50, 50, 0.35) 0%, rgba(0, 0, 0, 0) 100%);
+    background: rgba(9, 9, 9, 0.35);
+}
+
+.searchInput {
+    width: 100%; /* инпут занимает всю ширину обёртки */
+    padding: 12px 48px 12px 16px; /* внутренние отступы: сверху, справа (место под иконку), снизу, слева (отступ текста) */
+    font-size: 20px; /* размер текста */
+    font-style: italic; /* курсивный стиль текста */
+    color: white; /* цвет текста */
+    background: transparent; /* прозрачный фон */
+    border: none; /* убираем все границы */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4); /* нижняя граница светло-белая, полупрозрачная */
+    outline: none; /* отключаем синий контур при фокусе */
+}
+
+.searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 100%;
+}
+
+.searchIcon {
+    position: absolute; /* абсолютное позиционирование иконки внутри обёртки */
+    right: 16px; /* отступ иконки справа */
+    top: 40%; /* вертикально по центру */
+    width: 40px; /* ширина иконки */
+    height: 40px; /* высота иконки */
+    pointer-events: none; /* чтобы клик не срабатывал на иконке */
+}
+.searchHero {
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 100%;
+    letter-spacing: 4.8px;
+    text-align: center;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 1);
+}

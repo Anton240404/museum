@@ -8,6 +8,7 @@ type Props = {
 
 type LayoutName = 'default' | 'ru' | 'symbols';
 
+//TODO вынести в отдельный компонент
 const layouts = {
     default: [
         ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
@@ -27,7 +28,7 @@ const layouts = {
         ['.', ',', '?', '!', '\'', '⌫'],
         ['ABC', 'АБВ', 'Space', 'Enter']
     ]
-} as const;
+}
 
 export function VirtualKeyboard(props:Props) {
     const [layout, setLayout] = useState<LayoutName>('default');
@@ -62,6 +63,7 @@ export function VirtualKeyboard(props:Props) {
 
     return (
         <div className={styles.keyboard}>
+            {/*!!todo*/}
             {layouts[layout].map((row, rowIndex) => (
                 <div key={rowIndex} className={styles.row}>
                     {row.map((key) => (

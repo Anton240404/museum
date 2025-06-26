@@ -68,3 +68,19 @@
     line-height: 100%;
     letter-spacing: 0;
 }
+.loadingAndErrorText {
+    font-size: 45px;
+    font-weight: 600;
+    text-align:left;
+    margin-top: 24px;
+    letter-spacing: 0.5px;
+}
+
+.loading {
+    color: #1976d2;
+}
+
+.error {
+    color: #d32f2f;
+}
+
