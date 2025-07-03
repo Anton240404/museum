@@ -1,7 +1,7 @@
 .container {
     display: flex;
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     overflow-y: hidden;
     flex-direction: column;
     justify-content: flex-start;
@@ -14,22 +14,40 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 41px;
-
 }
 .logo{
     height: 180px;
     width: 86px;
 }
-.titleHeader{
+
+.titleHeader {
     font-weight: 800;
     font-size: 64px;
+}
+
+.titleHeaderBlack {
+    composes: titleHeader;
     color: rgba(43, 42, 41, 1);
 }
+
+.titleHeaderWhite {
+    composes: titleHeader;
+    color: #fff;
+}
+
 .subtitleHeader{
     font-weight: 800;
     font-size: 58px;
+}
+
+.subtitleHeaderWhite{
+    composes: subtitleHeader;
+   color: rgba(81, 79, 77, 1);
+}
+.subtitleHeaderBlack{
+    composes: subtitleHeader;
     color: rgba(81, 79, 77, 1);
 }
 .buttonsAndText{

@@ -1,0 +1,119 @@
+.container {
+    width: 20vw; /* Ширина панели — треть ширины экрана */
+    height: 100vh; /* Высота на весь экран */
+    padding: 24px; /* Внутренние отступы со всех сторон */
+    box-sizing: border-box; /* Учитывает padding и border в общей ширине/высоте */
+    background-color: rgba(242, 231, 210, 1);
+    position: fixed; /* Фиксированная позиция — остаётся на месте при скролле */
+    left: 0; /* Прикреплена к левому краю экрана */
+    top: 0; /* И к верхнему краю */
+    z-index: 1000; /* Приоритет отображения — поверх остального контента */
+}
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+.close{
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+}
+.close:active {
+    transform: scale(0.9);
+
+}
+
+.title {
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 100%;
+    text-transform: uppercase;
+}
+
+.section {
+    margin-bottom: 32px; /* Отступ между секциями */
+}
+
+.label {
+    margin-bottom: 8px; /* Отступ снизу от названия секции */
+}
+
+.sliderPlaceholder {
+    height: 4px; /* Высота фейкового ползунка */
+    border-radius: 2px; /* Скругление углов для мягкости */
+    margin-bottom: 18px; /* Отступ снизу от ползунка до инпутов */
+    border-bottom: 1px solid rgba(139, 135, 133, 1)
+}
+
+.dateInputs {
+    display: flex; /* Горизонтальное выравнивание инпутов */
+    gap: 12px; /* Отступ между инпутами */
+}
+
+.dateInput {
+    padding: 17px 5px; /* Фиксированная ширина поля ввода даты */
+    background: transparent;
+    border: 1px solid rgba(81, 79, 77, 1);
+}
+.checkboxLabel {
+    display: block; /* Каждый чекбокс с подписью занимает свою строку */
+    margin-bottom: 8px; /* Отступ между чекбоксами */
+}
+
+.showAllButton {
+    padding: 0; /* Убираем внутренние отступы */
+    margin-top: 8px; /* Отступ сверху от чекбоксов */
+    background: none; /* Прозрачный фон */
+    border: none; /* Без рамки */
+    color: #b51a1a; /* Цвет текста, как в макете */
+    cursor: pointer; /* Курсор указывает на кликабельность */
+}
+
+.letterGrid {
+    display: grid; /* Сетка для кнопок с буквами */
+    grid-template-columns: repeat(7, 1fr); /* 7 столбцов одинаковой ширины */
+    gap: 8px; /* Расстояние между кнопками */
+}
+
+.letterButton {
+    padding: 6px; /* Внутренний отступ внутри кнопки */
+    cursor: pointer; /* Указатель при наведении */
+    border: 1px solid #000; /* Чёрная рамка вокруг */
+    background-color: #fff; /* Белый фон по умолчанию */
+    color: #000; /* Чёрный текст */
+}
+
+.activeLetter {
+    background-color: #b51a1a; /* Красный фон активной буквы */
+    color: #fff; /* Белый текст на красном фоне */
+}
+
+.slideIn {
+    animation: slideIn 0.3s ease-out forwards;
+}
+
+/* Класс для анимации исчезновения */
+.slideOut {
+    animation: slideOut 0.3s ease-in forwards;
+}
+
+/* Анимация появления */
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Анимация исчезновения */
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}

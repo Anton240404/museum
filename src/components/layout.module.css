@@ -1,0 +1,27 @@
+.containerLayout {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    overflow-y: hidden;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background:rgba(242, 229, 204, 1) url('/src/assets/background-image.jpg') no-repeat center;
+    background-size: cover;
+}
+.searchLayoutBackground{
+    background: linear-gradient(180deg, rgba(50, 50, 50, 0.35) 0%, rgba(0, 0, 0, 0) 100%);
+    width: 100%;
+    height: 100%;
+    flex: 1;
+
+}
+.layoutBackground{
+    background: rgba(9, 9, 9, 0.35);
+    width: 100%;
+    height: 100%;
+    padding: 72px 80px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}

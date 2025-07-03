@@ -2,12 +2,12 @@ import styles from './button.module.css';
 import type { ReactNode } from 'react';
 
 type Props = {
-    color: | 'default' | 'red'
+    color: | 'default' | 'red' | 'white';
     onClick?: () => void;
     text: string;
     disabled?: boolean;
     type?: 'submit' | 'button' | 'reset';
-    size?: 'sm' | 'md';
+    size?: 'sm' | 'md' | 'xl';
     icon?: ReactNode;
 };
 
@@ -18,11 +18,16 @@ export function Button(props: Props) {
         classnames.push(styles.default);
     } else if (props.color === 'red') {
         classnames.push(styles.red);
+    }else if (props.color === 'white') {
+        classnames.push(styles.white);
     }
-
     if (props.size === 'md') {
         classnames.push(styles.md);
     }
+    if (props.size === 'xl') {
+        classnames.push(styles.xl);
+    }
+
 
     return (
         <>

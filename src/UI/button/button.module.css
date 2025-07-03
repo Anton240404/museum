@@ -14,6 +14,14 @@
     padding: 21px 45px;
 }
 
+.white {
+    border: 1px solid rgba(255, 255, 255, 1);
+    color: rgba(255, 255, 255, 1);
+    background-color: transparent;
+
+
+}
+
 .red {
     background-color: rgba(207, 51, 55, 1);
     color: white;
@@ -33,4 +41,8 @@
 
 .md {
     padding: 23px 140px;
+}
+
+.xl {
+    padding: 23px 216px;
 }

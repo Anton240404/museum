@@ -1,4 +1,4 @@
-import {  useState } from 'react';
+import { useState } from 'react';
 import { VirtualKeyboard } from '../virtual-keyboard/virtual-keyboard.tsx';
 import css from './search.module.css';
 import SearchIcon from '/src/assets/search.svg?react';
@@ -25,23 +25,27 @@ export function Search() {
         <>
             <div className={css.searchInputWrapper}>
                 <h2 className={css.searchHero}>Поиск по базе героев</h2>
-                <input
-                    className={css.searchInput}
-                    value={value}
-                    placeholder="Кого вы ищите?"
-                    onFocus={() => setShowKeyboard(true)}
-                    readOnly
-                />
-                <SearchIcon className={css.searchIcon} />
-                <Button
-                    color={'default'}
-                    text={'НА ГЛАВНУЮ'}
-                    size={'md'}
-                    onClick={() => navigate('/')}
-                />
+                <div className={css.searchInputContainer} >
+                    <input
+                        className={css.searchInput}
+                        value={value}
+                        placeholder="Кого вы ищите?"
+                        onFocus={() => setShowKeyboard(true)}
+                    />
+                    <SearchIcon className={css.searchIcon} />
+                </div>
+                <div className={css.buttonWrapper}>
+                    <Button
+                        color={'white'}
+                        text={'НА ГЛАВНУЮ'}
+                        size={'xl'}
+                        onClick={() => navigate('/')}
+                    />
+                </div>
             </div>
             {showKeyboard && (
                 <VirtualKeyboard
+                    //TODO onKeyPress - change
                     onKeyPress={handleKeyPress}
                     onClose={() => setShowKeyboard(false)}
                 />

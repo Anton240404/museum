@@ -6,10 +6,12 @@ import { HeroCard } from '../hero-card/hero-card.tsx';
 import { useEffect, useState } from 'react';
 import { type Hero } from '../../types/hero-type.tsx';
 import { useNavigate } from 'react-router-dom';
+import { FilterPanel } from '../filter-panel/filter-panel.tsx';
 
 
 export function Home() {
     const [heroes, setHeroes] = useState<Hero[]>([]);
+    const [isFilterPanelVisible, setIsFilterPanelVisible] = useState(false);
 
     const navigate = useNavigate();
 
@@ -32,6 +34,8 @@ export function Home() {
 
     return (
         <>
+            {isFilterPanelVisible && <FilterPanel onClose={() => setIsFilterPanelVisible(false)}/>}
+
             <div className={css.buttonsAndText}>
                 <div className={css.buttonContainer}>
                     <Button
@@ -44,9 +48,10 @@ export function Home() {
                         color={'default'}
                         text={'ФИЛЬТР'}
                         icon={<FilterIcon />}
+                        // При клике меняем состояние на противоположное
+                        onClick={() => setIsFilterPanelVisible(!isFilterPanelVisible)}
                     />
                 </div>
-
                 <p className={css.text}>СТЕНА ПАМЯТИ</p>
                 <img src="/src/assets/wall-of-memory.svg" alt="stenapamyati" />
             </div>
