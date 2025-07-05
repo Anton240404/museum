@@ -1,35 +1,42 @@
 .keyboard {
     position: absolute;
-    bottom: 5%;
+    bottom: 15%;
     left: 50%;
     transform: translateX(-50%);
     background-color: white;
-    border-radius: 20px;
+    border-radius: 36px;
     padding: 24px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
     z-index: 100;
-    max-width: 800px;
+    max-width: 920px;
     width: 90%;
 }
 
 .row {
     display: flex;
     justify-content: center;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
 }
 
 .key {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    font-family: Montserrat, serif;
+    font-weight: 400;
+    font-size: 18px;
+    vertical-align: middle;
     background-color: #f6f6f6;
     border: none;
     border-radius: 10px;
-    font-size: 18px;
+    line-height: 100%;
     padding: 12px 18px;
     margin: 6px;
-    min-width: 48px;
+    height: 48px;
+    width: 65px;
     text-align: center;
     cursor: pointer;
     transition: background-color 0.2s;
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.3);
 }
 
 .key:hover {
@@ -40,32 +47,59 @@
     background-color: #cccccc;
 }
 
-.key[data-key='Enter'] {
-    background-color: #D63F3F;
-    color: white;
-}
-
-.key[data-key='Enter']:hover {
-    background-color: #c93636;
-}
-
-.key[data-key='⌫'],
-.key[data-key='🌐'],
-.key[data-key='&123'],
-.key[data-key='ABC'],
-.key[data-key='АБВ'] {
-    background-color: #eaeaea;
-}
-
 .close {
-    margin: 10px auto 0;
-    background-color: transparent;
-    color: #222;
-    border: 2px solid #ccc;
-    border-radius: 50%;
-    font-size: 20px;
-    width: 42px;
-    height: 42px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -76px;
+    width: 88px;
+    height: 56px;
+    background-color: white;
+    border-radius: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    padding: 0;
     cursor: pointer;
-    display: block;
+}
+
+.close:hover {
+    transform: translateX(-50%) scale(1.1);
+}
+
+.close svg {
+    width: 22px;
+    height: 22px;
+}
+
+.space{
+    width: 406px;
+}
+.wordDelete{
+    width: 90px;
+    background: rgba(235, 235, 235, 1);
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.3);
+
+}
+.wordArrow{
+    width: 91px;
+    background: rgba(235, 235, 235, 1);
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.3);
+}
+.translate{
+    width: 72px;
+    background: rgba(235, 235, 235, 1);
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.3);
+}
+.numbers{
+    width: 72px;
+    background: rgba(235, 235, 235, 1);
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.3);
+}
+.enter{
+    width: 152px;
+    background: rgba(207, 51, 55, 1);
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.3);
+    color: rgba(255, 255, 255, 1);
 }

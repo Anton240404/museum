@@ -1,49 +1,38 @@
 import { useState } from 'react';
 import styles from './vertual-keyboard.module.css';
+import { type LayoutName, layouts } from '../layouts/layouts.tsx';
+import CloseKeyboardIcon from '/src/assets/close-keyboard.svg?react';
+import WordDeleteIcon from '/src/assets/word-delete.svg?react';
+import WordArrowIcon from '/src/assets/word-arrow.svg?react';
+import TranslateIcon from '/src/assets/translate.svg?react';
+import * as React from 'react';
+
+const keyIcons: { [key: string] : React.ComponentType} = {
+    'word-delete': WordDeleteIcon,
+    'word-arrow': WordArrowIcon,
+    'translate': TranslateIcon,
+};
+
+const keyConfigs: {[key: string]: string} = {
+    'Space': styles.space,
+    'word-delete': styles.wordDelete,
+    'word-arrow': styles.wordArrow,
+    'translate': styles.translate,
+    '&123': styles.numbers,
+    'Ввод': styles.enter
+}
 
 type Props = {
     onKeyPress: (value: string) => void;
     onClose: () => void;
 };
 
-type LayoutName = 'default' | 'ru' | 'symbols';
-
-//TODO вынести в отдельный компонент
-const layouts = {
-    default: [
-        ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
-        ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
-        ['⬆', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '⌫'],
-        ['&123', '🌐', 'Space', 'Enter']
-    ],
-    ru: [
-        ['й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з'],
-        ['ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д'],
-        ['⬆', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', '⌫'],
-        ['&123', 'icon-1', 'Space', 'Enter']
-    ],
-    symbols: [
-        ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
-        ['-', '/', ':', ';', '(', ')', '₽', '&', '@'],
-        ['.', ',', '?', '!', '\'', '⌫'],
-        ['ABC', 'АБВ', 'Space', 'Enter']
-    ]
-}
-
-export function VirtualKeyboard(props:Props) {
+export function VirtualKeyboard(props: Props) {
     const [layout, setLayout] = useState<LayoutName>('default');
+    const [isUppercase, setIsUppercase] = useState(false);
 
     const handleClick = (key: string) => {
         switch (key) {
-            case '⌫':
-                props.onKeyPress('Backspace');
-                break;
-            case 'Enter':
-                props.onKeyPress('Enter');
-                break;
-            case 'Space':
-                props.onKeyPress(' ');
-                break;
             case '&123':
                 setLayout('symbols');
                 break;
@@ -53,27 +42,52 @@ export function VirtualKeyboard(props:Props) {
             case 'АБВ':
                 setLayout('ru');
                 break;
-            case '🌐':
-                setLayout((prev) => (prev === 'default' ? 'ru' : 'default'));
+            case 'translate':
+                setLayout(layout === 'default' ? 'ru' : 'default');
+                break;
+            case 'word-arrow':
+                setIsUppercase((prev) => !prev); // включаем/выключаем апперкейс
+                break;
+            case 'word-delete':
+            case 'Ввод':
+            case 'Space':
+                props.onKeyPress(key);
                 break;
             default:
-                props.onKeyPress(key);
+                { const value = isUppercase ? key.toUpperCase() : key;
+                props.onKeyPress(value);
+                if (isUppercase) setIsUppercase(false); } // сброс как у мобильной клавиатуры
         }
     };
 
     return (
         <div className={styles.keyboard}>
-            {/*!!todo*/}
             {layouts[layout].map((row, rowIndex) => (
                 <div key={rowIndex} className={styles.row}>
-                    {row.map((key) => (
-                        <button key={key} className={styles.key} onClick={() => handleClick(key)}>
-                            {key}
-                        </button>
-                    ))}
+                    {row.map((key) => {
+                        const IconComponent = keyIcons[key];
+                        const customClass = keyConfigs[key] || '';
+                        const isActiveShift = key === 'word-arrow' && isUppercase;
+
+                        return (
+                            <button
+                                key={key}
+                                className={`${styles.key} ${customClass}${isActiveShift ? styles.activeShift : ''}`}
+                                onClick={() => handleClick(key)}
+                            >
+                                {IconComponent ? (
+                                    <IconComponent />
+                                ) : (
+                                    isUppercase ? key.toUpperCase() : key
+                                )}
+                            </button>
+                        );
+                    })}
                 </div>
             ))}
-            <button className={styles.close} onClick={props.onClose}>✕</button>
+            <button className={styles.close} onClick={props.onClose}>
+                <CloseKeyboardIcon />
+            </button>
         </div>
     );
 }
