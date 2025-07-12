@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { FilterPanel } from '../filter-panel/filter-panel.tsx';
 
 export function Home() {
-    const [heroes, setHeroes] = useState<Hero[]>([]);
+    const [heroes, setHeroes] = useState<Hero[] | null>(null);
 
     const [isFilterPanelVisible, setIsFilterPanelVisible] = useState(false);
     const [error, setError] = useState('');
@@ -45,7 +45,6 @@ export function Home() {
                 />
             )}
 
-
             <div className={css.buttonsAndText}>
                 <div className={css.buttonContainer}>
                     <Button
@@ -68,18 +67,24 @@ export function Home() {
             {error && <p className={css.error}>{error}</p>}
 
             <div className={css.veteransContainer}>
-                {heroes.length > 0 && (
-                    <div className={css.veteranFirst}>
-                        <HeroCard
-                            hero={heroes[0]}
-                        />
-                    </div>
+                {heroes === null && <p>Загрузка...</p>}
+
+                {heroes && heroes.length === 0 && <p>Нет результатов</p>}
+
+                {heroes && heroes.length > 0 && (
+                    <>
+                        <div className={css.veteranFirst}>
+                            <HeroCard
+                                hero={heroes[0]}
+                            />
+                        </div>
+                        <div className={css.veteransGrid}>
+                            {heroes.slice(1).map(hero => {
+                                return <HeroCard key={hero.id} hero={hero} />;
+                            })}
+                        </div>
+                    </>
                 )}
-                <div className={css.veteransGrid}>
-                    {heroes.slice(1).map(hero => {
-                        return <HeroCard key={hero.id} hero={hero} />;
-                    })}
-                </div>
             </div>
         </>
     );
