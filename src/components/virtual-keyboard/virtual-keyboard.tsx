@@ -5,16 +5,15 @@ import CloseKeyboardIcon from '/src/assets/close-keyboard.svg?react';
 import WordDeleteIcon from '/src/assets/word-delete.svg?react';
 import WordArrowIcon from '/src/assets/word-arrow.svg?react';
 import TranslateIcon from '/src/assets/translate.svg?react';
-import * as React from 'react';
 
-const keyIcons: { [key: string] : React.ComponentType} = {
+const keyIcons = {
     'word-delete': WordDeleteIcon,
     'word-arrow': WordArrowIcon,
     'translate': TranslateIcon,
 };
 
-const keyConfigs: {[key: string]: string} = {
-    'Space': styles.space,
+const keyConfigs = {
+    'Пробел': styles.space,
     'word-delete': styles.wordDelete,
     'word-arrow': styles.wordArrow,
     'translate': styles.translate,
@@ -40,23 +39,23 @@ export function VirtualKeyboard(props: Props) {
                 setLayout('default');
                 break;
             case 'АБВ':
-                setLayout('ru');
+                setLayout('eng');
                 break;
             case 'translate':
-                setLayout(layout === 'default' ? 'ru' : 'default');
+                setLayout(layout === 'default' ? 'eng' : 'default');
                 break;
             case 'word-arrow':
-                setIsUppercase((prev) => !prev); // включаем/выключаем апперкейс
+                setIsUppercase((prev) => !prev);
                 break;
             case 'word-delete':
             case 'Ввод':
-            case 'Space':
+            case 'Пробел':
                 props.onKeyPress(key);
                 break;
             default:
                 { const value = isUppercase ? key.toUpperCase() : key;
                 props.onKeyPress(value);
-                if (isUppercase) setIsUppercase(false); } // сброс как у мобильной клавиатуры
+                if (isUppercase) setIsUppercase(false); }
         }
     };
 
@@ -65,14 +64,18 @@ export function VirtualKeyboard(props: Props) {
             {layouts[layout].map((row, rowIndex) => (
                 <div key={rowIndex} className={styles.row}>
                     {row.map((key) => {
-                        const IconComponent = keyIcons[key];
-                        const customClass = keyConfigs[key] || '';
+                        /*TODO!!!!*/
+                        type KeyIcon = keyof typeof keyIcons;
+                        type KeyConfig = keyof typeof keyConfigs;
+
+                        const IconComponent = keyIcons[key as KeyIcon];
+                        const customClass = keyConfigs[key as KeyConfig] || '';
                         const isActiveShift = key === 'word-arrow' && isUppercase;
 
                         return (
                             <button
                                 key={key}
-                                className={`${styles.key} ${customClass}${isActiveShift ? styles.activeShift : ''}`}
+                                className={`${styles.key} ${customClass} ${isActiveShift ? styles.activeShift : ''}`}
                                 onClick={() => handleClick(key)}
                             >
                                 {IconComponent ? (

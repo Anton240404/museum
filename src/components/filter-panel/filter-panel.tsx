@@ -1,8 +1,13 @@
 import css from './filter-panel.module.css';
 import { useEffect, useState } from 'react';
+import { Button } from '../../UI/button/button.tsx';
+import type { Hero } from '../../types/hero-type.tsx';
 
 type Props = {
     onClose: () => void;
+    onChangeHeroes: (heroes: Hero[]) => void;
+    selectedLetters: string[];
+    onClear: () => void;
 }
 
 type GetFiltersResponse = {
@@ -13,13 +18,14 @@ type GetFiltersResponse = {
 }
 
 export const FilterPanel = (props: Props) => {
-
     const [min, setMin] = useState(0);
     const [max, setMax] = useState(0);
+    const [selectedRanks, setSelectedRanks] = useState<string[]>([]);
 
     const [filters, setFilters] = useState<GetFiltersResponse | null>(null);
     const [error, setError] = useState('');
-
+    const [searchError, setSearchError] = useState('');
+    const [showAllRanks, setShowAllRanks] = useState(false);
 
     useEffect(() => {
         fetch('https://book-memory-sections-out.itlabs.top/api/members/filters/get')
@@ -41,7 +47,6 @@ export const FilterPanel = (props: Props) => {
             });
     }, []);
 
-
     const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = +e.target.value;
         if (value <= max) setMin(value);
@@ -52,17 +57,63 @@ export const FilterPanel = (props: Props) => {
         if (value >= min) setMax(value);
     };
 
-
-    /*TODO! Разобраться с анимацией*/
     const [animationClass, setAnimationClass] = useState(css.slideIn);
 
     const handleClose = () => {
         setAnimationClass(css.slideOut);
         setTimeout(() => {
             props.onClose();
-        }, 500); // 500 мс = 0.5 сек
+        }, 500);
     };
 
+    //TODO ---------------------
+    const handleRankChange = (rank: string) => {
+        setSelectedRanks(prevRanks => {
+            if (prevRanks.includes(rank)) {
+                return prevRanks.filter(r => r !== rank);
+            } else {
+                return [...prevRanks, rank];
+            }
+        });
+    };
+
+    //TODO ---------------------
+
+    const handleApplyFilters = () => {
+        setSearchError('');
+
+        const ranks = selectedRanks.join(',');
+        const words = props.selectedLetters.join(',');
+
+        const url = `https://book-memory-sections-out.itlabs.top/api/members?yearStart=${min}&yearEnd=${max}&rank=${ranks}&word=${words}`;
+
+        fetch(url)
+            .then(resp => {
+                if (!resp.ok) {
+                    throw new Error(`Ошибка сети: ${resp.status}`);
+                }
+                return resp.json();
+            })
+            .then(filteredHeroes => {
+                props.onChangeHeroes(filteredHeroes);
+                props.onClose();
+            })
+            .catch(error => {
+                console.error("Ошибка при применении фильтров:", error);
+                setSearchError('Не удалось загрузить данные. Попробуйте еще раз.');
+            });
+    };
+
+    const handleClear = () => {
+        if (filters) {
+            setMin(filters.yearStart);
+            setMax(filters.yearEnd);
+        }
+        setSelectedRanks([]);
+        setSearchError('');
+
+        props.onClear();
+    };
 
     function renderBody() {
         if (!filters) {
@@ -78,8 +129,12 @@ export const FilterPanel = (props: Props) => {
                 <div className={css.section}>
                     <div className={css.sliderPlaceholder} />
                     <p className={css.label}>ДАТА РОЖДЕНИЯ</p>
-                    <input type="range" min={filters.yearStart} max={filters.yearEnd} value={min} onChange={handleMinChange} />
-                    <input type="range" min={filters.yearStart} max={filters.yearEnd} value={max} onChange={handleMaxChange} />
+                    <div className={css.inputs}>
+                        <input type="range" min={filters.yearStart} max={filters.yearEnd} value={min}
+                               onChange={handleMinChange} />
+                        <input type="range" min={filters.yearStart} max={filters.yearEnd} value={max}
+                               onChange={handleMaxChange} />
+                    </div>
                     <div className={css.dateInputs}>
                         <input type="text" value={min} onChange={(e) => setMin(+e.target.value)}
                                className={css.dateInput} />
@@ -88,121 +143,74 @@ export const FilterPanel = (props: Props) => {
                     </div>
                 </div>
 
-                {/* Звание */}
                 <div className={css.section}>
                     <p className={css.label}>ЗВАНИЕ</p>
-                    <label className={css.checkboxLabel}>
-                        <input type="checkbox" /> Ефрейтор
-                    </label>
-                    <label className={css.checkboxLabel}>
-                        <input type="checkbox" defaultChecked /> Лейтенант
-                    </label>
-                    <label className={css.checkboxLabel}>
-                        <input type="checkbox" /> Генерал
-                    </label>
-                    {/*Добавить еще хотя бы одно звание*/}
-                    <button className={css.showAllButton}>Посмотреть все</button>
+                    {filters.rank.map((rank, index) => {
+                        if (!showAllRanks && index > 2) {
+                            return null;
+                        }
+                        return (
+                            <label key={rank} className={css.checkboxLabel}>
+                                <input
+                                    type="checkbox"
+                                    checked={selectedRanks.includes(rank)}
+                                    onChange={() => handleRankChange(rank)}
+                                />
+                                {rank}
+                            </label>
+                        );
+                    })}
+
+
+                    {filters.rank.length > 3 && (
+                        <button
+                            className={css.showAllButton}
+                            onClick={() => setShowAllRanks(!showAllRanks)}
+                        >
+                            {showAllRanks ? 'Скрыть' : 'Показать все'}
+                        </button>
+                    )}
                 </div>
 
-                {/* По буквам */}
                 <div className={css.section}>
                     <p className={css.label}>ПО БУКВАМ</p>
                     <div className={css.letterGrid}>
                         {filters.word.map((letter) => (
                             <button
                                 key={letter}
-                                className={`${css.letterButton} ${letter === 'А' ? css.activeLetter : ''}`}
+                                className={`${css.letterButton} ${props.selectedLetters.includes(letter) ? css.activeLetter : ''}`}
                             >
                                 {letter}
                             </button>
                         ))}
                     </div>
                 </div>
+                <div className={css.buttonContainer}>
+                    <Button
+                        onClick={handleApplyFilters}
+                        text="ПРИМЕНИТЬ"
+                        color="red"
+                        size="md"
+                    />
+                    <Button
+                        onClick={handleClear}
+                        text="ОЧИСТИТЬ"
+                        color="default"
+                        size="md"
+                    />
+                </div>
+                {searchError && <p className={css.error}>{searchError}</p>}
             </div>
         );
     }
 
     return (
-        /*TODO! Разобраться с анимацией*/
         <div className={`${css.container} ${animationClass}`}>
             <div className={css.header}>
                 <h2 className={css.title}>ФИЛЬТРЫ</h2>
                 <img className={css.close} src="/src/assets/close.svg" alt="close" onClick={handleClose} />
             </div>
-
             {renderBody()}
         </div>
     );
 };
-
-// function List() {
-//     const isError = false;
-//     const isLoading = false;
-//
-//     function renderBody() {
-//         if (isError) {
-//             return (
-//                 <p className={css.error}>Произошла ошибка</p>
-//             );
-//         }
-//
-//         if (isLoading) {
-//             return (
-//                 <p className={css.loading}>Загрузка...</p>
-//             );
-//         }
-//
-//         return <ul>
-//             <li>1</li>
-//             <li>1</li>
-//             <li>1</li>
-//             <li>1</li>
-//             <li>1</li>
-//         </ul>;
-//     }
-//
-//     return (
-//         <div>
-//             <p>Список</p>
-//
-//             {renderBody()}
-//         </div>
-//     );
-// }
-//
-// function List() {
-//     const isError = false;
-//     const isLoading = false;
-//
-//
-//
-//     return (
-//         <div>
-//             <p>Список</p>
-//
-//             <Body />
-//         </div>
-//     );
-// }
-//
-// function Body() {
-//     if (isError) {
-//         return (
-//             <p className={css.error}>Произошла ошибка</p>
-//         );
-//     }
-//
-//     if (isLoading) {
-//         return (
-//             <p className={css.loading}>Загрузка...</p>
-//         );
-//     }
-//
-//     return <ul>
-//         <li>1</li>
-//         <li>1</li>
-//         <li>1</li>
-//         <li>1</li>
-//         <li>1</li>
-//     </ul>;
-// }

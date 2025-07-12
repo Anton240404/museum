@@ -7,11 +7,14 @@ import { useEffect, useState } from 'react';
 import { type Hero } from '../../types/hero-type.tsx';
 import { useNavigate } from 'react-router-dom';
 import { FilterPanel } from '../filter-panel/filter-panel.tsx';
-
+import { VirtualKeyboard } from '../virtual-keyboard/virtual-keyboard.tsx';
 
 export function Home() {
     const [heroes, setHeroes] = useState<Hero[]>([]);
+    const [initialHeroes, setInitialHeroes] = useState<Hero[]>([]);
+    const [selectedLetters, setSelectedLetters] = useState<string[]>([]);
     const [isFilterPanelVisible, setIsFilterPanelVisible] = useState(false);
+    const [isKeyboardVisible, setIsKeyboardVisible] = useState(false); 
 
     const navigate = useNavigate();
 
@@ -26,15 +29,56 @@ export function Home() {
             .then((data) => {
                 console.log('Data from API:', data);
                 setHeroes(data);
+                setInitialHeroes(data);
             })
             .catch((error) => {
                 console.error('Ошибка при загрузке данных:', error);
             });
     }, []);
 
+    const handleToggleFilterPanel = () => {
+        const isOpening = !isFilterPanelVisible;
+        setIsFilterPanelVisible(isOpening);
+    };
+    const handleKeyPress = (key: string) => {
+        if (key === 'word-delete') {
+            setSelectedLetters(prev => prev.slice(0, -1));
+            return;
+        }
+
+        if (key.length === 1) {
+            const upperKey = key.toUpperCase();
+            setSelectedLetters(prev => {
+                if (prev.includes(upperKey)) {
+                    return prev;
+                }
+                return [...prev, upperKey];
+            });
+        }
+    };
+
+    const handleClearFilters = () => {
+        setSelectedLetters([]);
+        setHeroes(initialHeroes);
+    };
+
     return (
         <>
-            {isFilterPanelVisible && <FilterPanel onClose={() => setIsFilterPanelVisible(false)}/>}
+            {isFilterPanelVisible && (
+                <FilterPanel
+                    onChangeHeroes={members => setHeroes(members)}
+                    onClose={handleToggleFilterPanel}
+                    selectedLetters={selectedLetters}
+                    onClear={handleClearFilters}
+                />
+            )}
+            {isKeyboardVisible && (
+                <VirtualKeyboard
+                    onKeyPress={handleKeyPress}
+                    onClose={handleToggleFilterPanel}
+                />
+            )}
+
 
             <div className={css.buttonsAndText}>
                 <div className={css.buttonContainer}>
@@ -48,8 +92,7 @@ export function Home() {
                         color={'default'}
                         text={'ФИЛЬТР'}
                         icon={<FilterIcon />}
-                        // При клике меняем состояние на противоположное
-                        onClick={() => setIsFilterPanelVisible(!isFilterPanelVisible)}
+                        onClick={handleToggleFilterPanel}
                     />
                 </div>
                 <p className={css.text}>СТЕНА ПАМЯТИ</p>
