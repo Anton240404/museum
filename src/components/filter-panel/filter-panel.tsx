@@ -6,8 +6,6 @@ import type { Hero } from '../../types/hero-type.tsx';
 type Props = {
     onClose: () => void;
     onChangeHeroes: (heroes: Hero[]) => void;
-    selectedLetters: string[];
-    onClear: () => void;
 }
 
 type GetFiltersResponse = {
@@ -21,6 +19,7 @@ export const FilterPanel = (props: Props) => {
     const [min, setMin] = useState(0);
     const [max, setMax] = useState(0);
     const [selectedRanks, setSelectedRanks] = useState<string[]>([]);
+    const [selectedLetters, setSelectedLetters] = useState<string[]>([]);
 
     const [filters, setFilters] = useState<GetFiltersResponse | null>(null);
     const [error, setError] = useState('');
@@ -83,7 +82,7 @@ export const FilterPanel = (props: Props) => {
         setSearchError('');
 
         const ranks = selectedRanks.join(',');
-        const words = props.selectedLetters.join(',');
+        const words = selectedLetters.join(',');
 
         const url = `https://book-memory-sections-out.itlabs.top/api/members?yearStart=${min}&yearEnd=${max}&rank=${ranks}&word=${words}`;
 
@@ -99,7 +98,7 @@ export const FilterPanel = (props: Props) => {
                 props.onClose();
             })
             .catch(error => {
-                console.error("Ошибка при применении фильтров:", error);
+                console.error('Ошибка при применении фильтров:', error);
                 setSearchError('Не удалось загрузить данные. Попробуйте еще раз.');
             });
     };
@@ -111,8 +110,7 @@ export const FilterPanel = (props: Props) => {
         }
         setSelectedRanks([]);
         setSearchError('');
-
-        props.onClear();
+        setSelectedLetters([]);
     };
 
     function renderBody() {
@@ -131,15 +129,15 @@ export const FilterPanel = (props: Props) => {
                     <p className={css.label}>ДАТА РОЖДЕНИЯ</p>
                     <div className={css.inputs}>
                         <input type="range" min={filters.yearStart} max={filters.yearEnd} value={min}
-                               onChange={handleMinChange} />
+                               onChange={handleMinChange} style={{ flex: 1 }} />
                         <input type="range" min={filters.yearStart} max={filters.yearEnd} value={max}
-                               onChange={handleMaxChange} />
+                               onChange={handleMaxChange} style={{ flex: 1 }} />
                     </div>
                     <div className={css.dateInputs}>
                         <input type="text" value={min} onChange={(e) => setMin(+e.target.value)}
-                               className={css.dateInput} />
+                               className={css.dateInput} style={{ flex: 1 }} />
                         <input type="text" value={max} onChange={(e) => setMax(+e.target.value)}
-                               className={css.dateInput} />
+                               className={css.dateInput} style={{ flex: 1 }} />
                     </div>
                 </div>
 
@@ -174,11 +172,21 @@ export const FilterPanel = (props: Props) => {
 
                 <div className={css.section}>
                     <p className={css.label}>ПО БУКВАМ</p>
+                    {selectedLetters.join(', ')}
                     <div className={css.letterGrid}>
                         {filters.word.map((letter) => (
                             <button
                                 key={letter}
-                                className={`${css.letterButton} ${props.selectedLetters.includes(letter) ? css.activeLetter : ''}`}
+                                onClick={() => {
+                                    const selected = selectedLetters.includes(letter);
+
+                                    if (selected) {
+                                        setSelectedLetters(selectedLetters.filter((l) => l !== letter));
+                                    } else {
+                                        setSelectedLetters([...selectedLetters, letter]);
+                                    }
+                                }}
+                                className={`${css.letterButton} ${selectedLetters.includes(letter) ? css.activeLetter : ''}`}
                             >
                                 {letter}
                             </button>

@@ -7,14 +7,12 @@ import { useEffect, useState } from 'react';
 import { type Hero } from '../../types/hero-type.tsx';
 import { useNavigate } from 'react-router-dom';
 import { FilterPanel } from '../filter-panel/filter-panel.tsx';
-import { VirtualKeyboard } from '../virtual-keyboard/virtual-keyboard.tsx';
 
 export function Home() {
     const [heroes, setHeroes] = useState<Hero[]>([]);
-    const [initialHeroes, setInitialHeroes] = useState<Hero[]>([]);
-    const [selectedLetters, setSelectedLetters] = useState<string[]>([]);
+
     const [isFilterPanelVisible, setIsFilterPanelVisible] = useState(false);
-    const [isKeyboardVisible, setIsKeyboardVisible] = useState(false); 
+    const [error, setError] = useState('');
 
     const navigate = useNavigate();
 
@@ -26,13 +24,10 @@ export function Home() {
                 }
                 return response.json();
             })
-            .then((data) => {
-                console.log('Data from API:', data);
-                setHeroes(data);
-                setInitialHeroes(data);
-            })
+            .then((data) => setHeroes(data))
             .catch((error) => {
-                console.error('Ошибка при загрузке данных:', error);
+                setError('Произошла ошибка');
+                console.error(error);
             });
     }, []);
 
@@ -40,41 +35,12 @@ export function Home() {
         const isOpening = !isFilterPanelVisible;
         setIsFilterPanelVisible(isOpening);
     };
-    const handleKeyPress = (key: string) => {
-        if (key === 'word-delete') {
-            setSelectedLetters(prev => prev.slice(0, -1));
-            return;
-        }
-
-        if (key.length === 1) {
-            const upperKey = key.toUpperCase();
-            setSelectedLetters(prev => {
-                if (prev.includes(upperKey)) {
-                    return prev;
-                }
-                return [...prev, upperKey];
-            });
-        }
-    };
-
-    const handleClearFilters = () => {
-        setSelectedLetters([]);
-        setHeroes(initialHeroes);
-    };
 
     return (
         <>
             {isFilterPanelVisible && (
                 <FilterPanel
                     onChangeHeroes={members => setHeroes(members)}
-                    onClose={handleToggleFilterPanel}
-                    selectedLetters={selectedLetters}
-                    onClear={handleClearFilters}
-                />
-            )}
-            {isKeyboardVisible && (
-                <VirtualKeyboard
-                    onKeyPress={handleKeyPress}
                     onClose={handleToggleFilterPanel}
                 />
             )}
@@ -98,6 +64,9 @@ export function Home() {
                 <p className={css.text}>СТЕНА ПАМЯТИ</p>
                 <img src="/src/assets/wall-of-memory.svg" alt="stenapamyati" />
             </div>
+
+            {error && <p className={css.error}>{error}</p>}
+
             <div className={css.veteransContainer}>
                 {heroes.length > 0 && (
                     <div className={css.veteranFirst}>
@@ -115,3 +84,4 @@ export function Home() {
         </>
     );
 }
+
