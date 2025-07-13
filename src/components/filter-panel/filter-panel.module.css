@@ -1,9 +1,8 @@
 .container {
-    width: 20vw; /*!!!*/
+    max-width: 500px;
     height: 100vh;
     padding: 24px;
-    box-sizing: border-box;
-    background-color: rgba(242, 231, 210, 1);
+    background: rgba(242, 231, 210, 1) url('/src/assets/bg_filtrs1.png') no-repeat center;
     position: fixed;
     left: 0;
     top: 0;
@@ -49,9 +48,7 @@
 .label {
     margin-bottom: 20px;
     font-weight: 400;
-    font-style: normal;
     font-size: 24px;
-    leading-trim: NONE;
     line-height: 100%;
     letter-spacing: 2.8px;
     text-transform: uppercase;
@@ -84,16 +81,21 @@
 }
 
 .showAllButton {
+    background-color: transparent;
+    border: none;
     padding: 0;
     margin-top: 8px;
-    background: none;
-    border: none;
-    color: #b51a1a;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-align: center;
     cursor: pointer;
+    color: rgba(207, 51, 55, 1);
 }
 
 .letterGrid {
-    max-width: 390px;
+    max-width: 500px;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 16px;
@@ -140,7 +142,8 @@
         transform: translateX(-100%);
     }
 }
-.buttonContainer{
+
+.buttonContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;

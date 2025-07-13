@@ -55,7 +55,7 @@ const useLoadHero = (id: string) => {
 
 
 export function Hero() {
-    // !
+    /*TODO!!!*/
     const { id: _id } = useParams<{ id: string }>();
     const id = _id as string;
 

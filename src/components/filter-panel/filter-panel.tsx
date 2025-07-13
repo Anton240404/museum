@@ -123,7 +123,7 @@ export const FilterPanel = (props: Props) => {
         }
 
         return (
-            <div>
+            <div className={css.background}>
                 <div className={css.section}>
                     <div className={css.sliderPlaceholder} />
                     <p className={css.label}>ДАТА РОЖДЕНИЯ</p>
