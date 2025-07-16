@@ -4,21 +4,19 @@ import { type LayoutName, layouts } from '../layouts/layouts.tsx';
 import CloseKeyboardIcon from '/src/assets/close-keyboard.svg?react';
 import WordDeleteIcon from '/src/assets/word-delete.svg?react';
 import WordArrowIcon from '/src/assets/word-arrow.svg?react';
-import TranslateIcon from '/src/assets/translate.svg?react';
 
 const keyIcons = {
     'word-delete': WordDeleteIcon,
     'word-arrow': WordArrowIcon,
-    'translate': TranslateIcon,
 };
 
 const keyConfigs = {
     'Пробел': styles.space,
     'word-delete': styles.wordDelete,
     'word-arrow': styles.wordArrow,
-    'translate': styles.translate,
     '&123': styles.numbers,
-    'Ввод': styles.enter
+    'Ввод': styles.enter,
+    'АБВ': styles.translate
 }
 
 type Props = {
@@ -35,14 +33,8 @@ export function VirtualKeyboard(props: Props) {
             case '&123':
                 setLayout('symbols');
                 break;
-            case 'ABC':
-                setLayout('default');
-                break;
             case 'АБВ':
-                setLayout('eng');
-                break;
-            case 'translate':
-                setLayout(layout === 'default' ? 'eng' : 'default');
+                setLayout('default');
                 break;
             case 'word-arrow':
                 setIsUppercase((prev) => !prev);
@@ -64,7 +56,6 @@ export function VirtualKeyboard(props: Props) {
             {layouts[layout].map((row, rowIndex) => (
                 <div key={rowIndex} className={styles.row}>
                     {row.map((key) => {
-                        /*TODO!!!!*/
                         type KeyIcon = keyof typeof keyIcons;
                         type KeyConfig = keyof typeof keyConfigs;
 

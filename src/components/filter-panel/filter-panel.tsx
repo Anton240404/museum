@@ -2,6 +2,8 @@ import css from './filter-panel.module.css';
 import { useEffect, useState } from 'react';
 import { Button } from '../../UI/button/button.tsx';
 import type { Hero } from '../../types/hero-type.tsx';
+import { apiProvider } from '../../api-provider.ts';
+import * as React from 'react';
 
 type Props = {
     onClose: () => void;
@@ -65,7 +67,6 @@ export const FilterPanel = (props: Props) => {
         }, 500);
     };
 
-    //TODO ---------------------
     const handleRankChange = (rank: string) => {
         setSelectedRanks(prevRanks => {
             if (prevRanks.includes(rank)) {
@@ -76,30 +77,23 @@ export const FilterPanel = (props: Props) => {
         });
     };
 
-    //TODO ---------------------
-
     const handleApplyFilters = () => {
         setSearchError('');
 
-        const ranks = selectedRanks.join(',');
-        const words = selectedLetters.join(',');
-
-        const url = `https://book-memory-sections-out.itlabs.top/api/members?yearStart=${min}&yearEnd=${max}&rank=${ranks}&word=${words}`;
-
-        fetch(url)
-            .then(resp => {
-                if (!resp.ok) {
-                    throw new Error(`Ошибка сети: ${resp.status}`);
-                }
-                return resp.json();
-            })
+        const filters = {
+            yearStart: min,
+            yearEnd: max,
+            ranks: selectedRanks,
+            letters: selectedLetters
+        };
+        apiProvider.getHeroes(filters)
             .then(filteredHeroes => {
                 props.onChangeHeroes(filteredHeroes);
                 props.onClose();
             })
             .catch(error => {
                 console.error('Ошибка при применении фильтров:', error);
-                setSearchError('Не удалось загрузить данные. Попробуйте еще раз.');
+                setSearchError('Произошла ошибка при поиске');
             });
     };
 
@@ -172,7 +166,6 @@ export const FilterPanel = (props: Props) => {
 
                 <div className={css.section}>
                     <p className={css.label}>ПО БУКВАМ</p>
-                    {selectedLetters.join(', ')}
                     <div className={css.letterGrid}>
                         {filters.word.map((letter) => (
                             <button

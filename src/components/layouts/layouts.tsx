@@ -1,4 +1,4 @@
-export type LayoutName = 'default' | 'eng' | 'symbols';
+export type LayoutName = 'default' | 'symbols';
 
 
 export const layouts = {
@@ -6,19 +6,13 @@ export const layouts = {
         ['й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ'],
         ['ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э'],
         ['word-arrow', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', 'word-delete'],
-        ['&123', 'translate', 'Пробел', 'Ввод'],
-    ],
-    eng: [
-        ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
-        ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
-        ['word-arrow', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'word-delete'],
-        ['&123', 'translate', 'Space', 'Enter'],
+        ['&123', 'Пробел', 'Ввод'],
     ],
     symbols: [
         ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
         ['-', '/', ':', ';', '(', ')', '₽', '&', '@'],
         ['.', ',', '?', '!', '\'', 'word-delete'],
-        ['ABC', 'АБВ', 'Space', 'Ввод'],
+        [ 'АБВ', 'Пробел', 'Ввод'],
     ],
 };
 

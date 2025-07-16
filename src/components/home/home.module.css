@@ -63,10 +63,16 @@
     gap: 16px;
     margin-bottom: 40px;
     margin-top: 51px;
+    white-space: nowrap;
 }
 .buttonContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+.buttonContainerActive {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 16px;
 }
 .text{
@@ -116,4 +122,17 @@
     text-align:left;
     margin-top: 24px;
     letter-spacing: 0.5px;
+}
+.count {
+    font-variant-numeric: lining-nums proportional-nums;
+    background: rgba(207, 51, 55, 1);
+    width: 62px;
+    height: 46px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+.filter{
+    background: rgba(255, 255, 255, 1);
 }

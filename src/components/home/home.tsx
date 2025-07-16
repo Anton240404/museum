@@ -2,91 +2,114 @@ import css from './home.module.css';
 import { Button } from '../../UI/button/button.tsx';
 import SearchIcon from '/src/assets/search.svg?react';
 import FilterIcon from '/src/assets/filter.svg?react';
+import FilterIconActive from '/src/assets/filter-active.svg?react';
 import { HeroCard } from '../hero-card/hero-card.tsx';
-import { useEffect, useState } from 'react';
-import { type Hero } from '../../types/hero-type.tsx';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FilterPanel } from '../filter-panel/filter-panel.tsx';
+import { useLayoutContext } from '../layout-context/layout-context.tsx';
+import { HeroesContext } from '../../heroes-context.tsx';
+import { apiProvider } from '../../api-provider.ts';
 
 export function Home() {
-    const [heroes, setHeroes] = useState<Hero[] | null>(null);
-
-    const [isFilterPanelVisible, setIsFilterPanelVisible] = useState(false);
+    const { isFilterOpen, setIsFilterOpen } = useLayoutContext();
+    const [isFilterActive, setIsFilterActive] = useState(false);
     const [error, setError] = useState('');
+    const { allHeroes, foundHeroes, setFoundHeroes, setAllHeroes } = useContext(HeroesContext);
 
     const navigate = useNavigate();
 
+    const heroes = foundHeroes || allHeroes;
+
     useEffect(() => {
-        fetch('https://book-memory-sections-out.itlabs.top/api/members')
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then((data) => setHeroes(data))
-            .catch((error) => {
+        if (foundHeroes) return;
+
+        apiProvider.getHeroes()
+            .then(data => setAllHeroes(data))
+            .catch(error => {
                 setError('Произошла ошибка');
                 console.error(error);
             });
-    }, []);
+    }, [foundHeroes]);
 
-    const handleToggleFilterPanel = () => {
-        const isOpening = !isFilterPanelVisible;
-        setIsFilterPanelVisible(isOpening);
-    };
 
     return (
         <>
-            {isFilterPanelVisible && (
+            {isFilterOpen && (
                 <FilterPanel
-                    onChangeHeroes={members => setHeroes(members)}
-                    onClose={handleToggleFilterPanel}
+                    onChangeHeroes={(members) => {
+                        setAllHeroes(members);
+                        setIsFilterActive(true);
+                    }}
+                    onClose={() => setIsFilterOpen(!isFilterOpen)}
                 />
             )}
 
-            <div className={isFilterPanelVisible ? css.contentDimmed : ''}>
-                <div className={css.buttonsAndText}>
-                    <div className={css.buttonContainer}>
-                        <Button
-                            color={'red'}
-                            text={'ПОИСК ГЕРОЯ'}
-                            icon={<SearchIcon />}
-                            onClick={() => navigate('/search')}
-                        />
+            <div className={css.buttonsAndText}>
+                <div className={isFilterActive? css.buttonContainerActive : css.buttonContainer}>
+                    <Button
+                        color={'red'}
+                        text={'ПОИСК ГЕРОЯ'}
+                        icon={<SearchIcon />}
+                        onClick={() => navigate('/search')}
+                    />
+
+                    {foundHeroes ? (
                         <Button
                             color={'default'}
-                            text={'ФИЛЬТР'}
-                            icon={<FilterIcon />}
-                            onClick={handleToggleFilterPanel}
+                            text={'ОЧИСТИТЬ ВСЁ'}
+                            onClick={() => setFoundHeroes(null)}
                         />
-                    </div>
-                    <p className={css.text}>СТЕНА ПАМЯТИ</p>
-                    <img src="/src/assets/wall-of-memory.svg" alt="stenapamyati" />
-                </div>
+                    ) : (
+                        <Button
+                            color={!isFilterActive ? 'default' : 'red'}
+                            text={isFilterActive ? 'ФИЛЬТР АКТИВЕН' : 'ФИЛЬТР'}
+                            icon={!isFilterActive ? <FilterIcon/> : <FilterIconActive />}
+                            onClick={() => setIsFilterOpen(!isFilterOpen)}
+                        />
+                    )}
 
-                {error && <p className={css.error}>{error}</p>}
-
-                <div className={css.veteransContainer}>
-                    {heroes === null && <p className={css.loading}>Загрузка...</p>}
-
-                    {heroes && heroes.length === 0 && <p>Нет результатов</p>}
-
-                    {heroes && heroes.length > 0 && (
-                        <>
-                            <div className={css.veteranFirst}>
-                                <HeroCard
-                                    hero={heroes[0]}
-                                />
-                            </div>
-                            <div className={css.veteransGrid}>
-                                {heroes.slice(1).map(hero => {
-                                    return <HeroCard key={hero.id} hero={hero} />;
-                                })}
-                            </div>
-                        </>
+                    {isFilterActive && !foundHeroes && (
+                        <Button
+                            color={'default'}
+                            text={'ОЧИСТИТЬ ВСЁ'}
+                            onClick={() => {
+                                fetch('https://book-memory-sections-out.itlabs.top/api/members')
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        setAllHeroes(data);
+                                        setIsFilterActive(false);
+                                    });
+                            }}
+                        />
                     )}
                 </div>
+
+                {foundHeroes ? (<p className={css.text}>РЕЗУЛЬТАТЫ ПОИСКА <span className={css.count}>{foundHeroes.length}</span></p>) : (<p className={css.text}>СТЕНА ПАМЯТИ</p>)}
+                <img src="/src/assets/wall-of-memory.svg" alt="stenapamyati" />
+            </div>
+
+            {error && <p className={css.error}>{error}</p>}
+
+            <div className={css.veteransContainer}>
+                {!heroes && <p className={css.loading}>Загрузка...</p>}
+
+                {heroes && !heroes.length && <p>Нет результатов</p>}
+
+                {heroes && heroes?.length > 0 && (
+                    <>
+                        <div className={css.veteranFirst}>
+                            <HeroCard
+                                hero={heroes[0]}
+                            />
+                        </div>
+                        <div className={css.veteransGrid}>
+                            {heroes.slice(1).map(hero => {
+                                return <HeroCard key={hero.id} hero={hero} />;
+                            })}
+                        </div>
+                    </>
+                )}
             </div>
         </>
     );

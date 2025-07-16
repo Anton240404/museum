@@ -9,7 +9,6 @@
     z-index: 1000;
     overflow: auto;
 }
-
 .header {
     display: flex;
     flex-direction: row;
@@ -45,6 +44,53 @@
     gap: 12px;
 }
 
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    background: transparent;
+    cursor: pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 8px;
+    background: rgba(81, 79, 77, 1);
+}
+input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    height: 8px;
+    background: rgba(81, 79, 77, 1);
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    margin-top: -12px;
+    height: 32px;
+    width: 32px;
+    background: rgba(207, 51, 55, 1);
+    border-radius: 50%;
+}
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+    border: 1px solid rgba(139, 135, 133, 1);
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s;
+
+}
+
+input[type="checkbox"]:checked {
+    background-color: rgba(207, 51, 55, 1);
+    border-color: rgba(207, 51, 55, 1);
+    background-image: url('/src/assets/check-mark.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 12px;
+}
+
 .label {
     margin-bottom: 20px;
     font-weight: 400;
@@ -78,6 +124,12 @@
     align-items: center;
     gap: 16px;
     margin-bottom: 8px;
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: 2.8px;
+    text-align: center;
+    color: rgba(81, 79, 77, 1);
+
 }
 
 .showAllButton {
@@ -118,12 +170,12 @@
     animation: slideIn 0.3s ease-out forwards;
 }
 
-/* Класс для анимации исчезновения */
+
 .slideOut {
     animation: slideOut 0.3s ease-in forwards;
 }
 
-/* Анимация появления */
+
 @keyframes slideIn {
     from {
         transform: translateX(-100%);
@@ -133,7 +185,7 @@
     }
 }
 
-/* Анимация исчезновения */
+
 @keyframes slideOut {
     from {
         transform: translateX(0);

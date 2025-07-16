@@ -34,7 +34,6 @@ export function Button(props: Props) {
             <button
                 type={props.type || 'button'}
                 disabled={props.disabled}
-                // !
                 onClick={() => props.onClick?.()}
                 className={classnames.join(' ')}
             >   {props.icon && <span className={styles.icon}>{props.icon}</span>}
