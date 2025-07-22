@@ -1,8 +1,8 @@
 import css from './home.module.css';
 import { Button } from '../../UI/button/button.tsx';
-import SearchIcon from '/src/assets/search.svg?react';
-import FilterIcon from '/src/assets/filter.svg?react';
-import FilterIconActive from '/src/assets/filter-active.svg?react';
+import SearchIcon from '../../assets/search.svg?react';
+import FilterIcon from '../../assets/filter.svg?react';
+import FilterIconActive from '../../assets/filter-active.svg?react';
 import { HeroCard } from '../hero-card/hero-card.tsx';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';

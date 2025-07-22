@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styles from './vertual-keyboard.module.css';
 import { type LayoutName, layouts } from '../layouts/layouts.tsx';
-import CloseKeyboardIcon from '/src/assets/close-keyboard.svg?react';
-import WordDeleteIcon from '/src/assets/word-delete.svg?react';
-import WordArrowIcon from '/src/assets/word-arrow.svg?react';
+import CloseKeyboardIcon from '../../assets/close-keyboard.svg?react';
+import WordDeleteIcon from '../../assets/word-delete.svg?react';
+import WordArrowIcon from '../../assets/word-arrow.svg?react';
 
 const keyIcons = {
     'word-delete': WordDeleteIcon,
