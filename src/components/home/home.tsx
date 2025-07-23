@@ -1,9 +1,9 @@
 import css from './home.module.css';
 import { Button } from '../../UI/button/button.tsx';
-import SearchIcon from 'assets/search.svg?react';
-import SearchIcon2 from 'assets/search.svg';
-import FilterIcon from 'assets/filter.svg?react';
-import FilterIconActive from 'assets/filter-active.svg?react';
+import searchIconPath from '/assets/search.svg';
+import filterIconPath from '/assets/filter.svg';
+import filterIconActivePath from '/assets/filter-active.svg';
+import wallOfMemoryPath from '/assets/wall-of-memory.svg';
 import { HeroCard } from '../hero-card/hero-card.tsx';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,6 @@ import { FilterPanel } from '../filter-panel/filter-panel.tsx';
 import { useLayoutContext } from '../layout-context/layout-context.tsx';
 import { HeroesContext } from '../../heroes-context.tsx';
 import { apiProvider } from '../../api-provider.ts';
-import wallOfMemoryUrl from 'assets/wall-of-memory.svg';
 
 export function Home() {
     const { isFilterOpen, setIsFilterOpen } = useLayoutContext();
@@ -52,10 +51,9 @@ export function Home() {
                     <Button
                         color={'red'}
                         text={'ПОИСК ГЕРОЯ'}
-                        icon={<SearchIcon />}
+                        icon={<img src={searchIconPath} />}
                         onClick={() => navigate('/search')}
                     />
-                    <SearchIcon2 />
 
                     {foundHeroes ? (
                         <Button
@@ -67,7 +65,7 @@ export function Home() {
                         <Button
                             color={!isFilterActive ? 'default' : 'red'}
                             text={isFilterActive ? 'ФИЛЬТР АКТИВЕН' : 'ФИЛЬТР'}
-                            icon={!isFilterActive ? <FilterIcon/> : <FilterIconActive />}
+                            icon={!isFilterActive ? <img src={filterIconPath}/> : <img src={filterIconActivePath} />}
                             onClick={() => setIsFilterOpen(!isFilterOpen)}
                         />
                     )}
@@ -89,7 +87,7 @@ export function Home() {
                 </div>
 
                 {foundHeroes ? (<p className={css.text}>РЕЗУЛЬТАТЫ ПОИСКА <span className={css.count}>{foundHeroes.length}</span></p>) : (<p className={css.text}>СТЕНА ПАМЯТИ</p>)}
-                <img src={wallOfMemoryUrl} alt="stenapamyati" />
+                <img src={wallOfMemoryPath} alt="stenapamyati" />
             </div>
 
             {error && <p className={css.error}>{error}</p>}
