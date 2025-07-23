@@ -2,7 +2,7 @@
     max-width: 500px;
     height: 100vh;
     padding: 24px;
-    background: rgba(242, 231, 210, 1) url('/src/assets/bg_filtrs1.png') no-repeat center;
+    background: rgba(242, 231, 210, 1) url('/public/assets/bg_filtrs1.png') no-repeat center;
     position: fixed;
     left: 0;
     top: 0;
@@ -85,7 +85,7 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked {
     background-color: rgba(207, 51, 55, 1);
     border-color: rgba(207, 51, 55, 1);
-    background-image: url('/src/assets/check-mark.svg');
+    background-image: url('/public/assets/check-mark.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 12px;

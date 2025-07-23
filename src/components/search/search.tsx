@@ -1,7 +1,7 @@
 import { useContext, useRef, useState } from 'react';
 import { VirtualKeyboard } from '../virtual-keyboard/virtual-keyboard.tsx';
 import css from './search.module.css';
-import SearchIcon from '../../assets/search.svg?react';
+import SearchIcon from '../../../public/assets/search.svg?react';
 import { Button } from '../../UI/button/button.tsx';
 import { useNavigate } from 'react-router-dom';
 import { HeroesContext } from '../../heroes-context.tsx';

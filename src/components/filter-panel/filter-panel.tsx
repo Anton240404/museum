@@ -209,7 +209,7 @@ export const FilterPanel = (props: Props) => {
         <div className={`${css.container} ${animationClass}`}>
             <div className={css.header}>
                 <h2 className={css.title}>ФИЛЬТРЫ</h2>
-                <img className={css.close} src="/src/assets/close.svg" alt="close" onClick={handleClose} />
+                <img className={css.close} src="/assets/close.svg" alt="close" onClick={handleClose} />
             </div>
             {renderBody()}
         </div>

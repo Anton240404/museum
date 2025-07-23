@@ -4,7 +4,7 @@ import type { Hero as HeroType } from '../../types/hero-type.tsx';
 import { API_BASE_URL, FALLBACK_IMAGE_URL } from '../../constans/constans.ts';
 import css from './hero.module.css';
 import { Button } from '../../UI/button/button.tsx';
-import MedalIcon from '../../assets/medal.svg?react';
+import MedalIcon from '../../../public/assets/medal.svg?react';
 
 const useLoadHero = (id: string) => {
     const [hero, setHero] = useState<HeroType | null>(null);

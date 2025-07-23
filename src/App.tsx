@@ -33,7 +33,7 @@ function App() {
 
 function Header(props: { textColor?: 'white' | 'black' }) {
     return <div className={css.header}>
-        <img className={css.logo} src="/src/assets/title-museum.png" alt="logo" />
+        <img className={css.logo} src="/assets/title-museum.png" alt="logo" />
         <div>
             <h1 className={clsx({
                 [css.titleHeaderWhite]: props.textColor === 'white',
