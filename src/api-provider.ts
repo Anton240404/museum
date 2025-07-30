@@ -26,7 +26,7 @@ export const apiProvider = {
                 params.append('yearEnd', filters.yearEnd.toString());
             }
             if (filters.ranks && filters.ranks.length > 0) {
-                params.append('rank', filters.ranks.join(','));
+                params.append('ranks', filters.ranks.join(','));
             }
 
             if (filters.letters && filters.letters.length > 0) {

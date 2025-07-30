@@ -1,13 +1,14 @@
 import css from './filter-panel.module.css';
+import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Button } from '../../UI/button/button.tsx';
 import type { Hero } from '../../types/hero-type.tsx';
 import { apiProvider } from '../../api-provider.ts';
-import * as React from 'react';
 
 type Props = {
     onClose: () => void;
     onChangeHeroes: (heroes: Hero[]) => void;
+    show: boolean
 }
 
 type GetFiltersResponse = {
@@ -22,6 +23,7 @@ export const FilterPanel = (props: Props) => {
     const [max, setMax] = useState(0);
     const [selectedRanks, setSelectedRanks] = useState<string[]>([]);
     const [selectedLetters, setSelectedLetters] = useState<string[]>([]);
+    const [animationClass, setAnimationClass] = useState(css.slideIn);
 
     const [filters, setFilters] = useState<GetFiltersResponse | null>(null);
     const [error, setError] = useState('');
@@ -48,6 +50,8 @@ export const FilterPanel = (props: Props) => {
             });
     }, []);
 
+    if (!props.show) return;
+
     const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = +e.target.value;
         if (value <= max) setMin(value);
@@ -57,8 +61,6 @@ export const FilterPanel = (props: Props) => {
         const value = +e.target.value;
         if (value >= min) setMax(value);
     };
-
-    const [animationClass, setAnimationClass] = useState(css.slideIn);
 
     const handleClose = () => {
         setAnimationClass(css.slideOut);

@@ -11,12 +11,14 @@ import { FilterPanel } from '../filter-panel/filter-panel.tsx';
 import { useLayoutContext } from '../layout-context/layout-context.tsx';
 import { HeroesContext } from '../../heroes-context.tsx';
 import { apiProvider } from '../../api-provider.ts';
+import { MoonLoader } from 'react-spinners';
 
 export function Home() {
     const { isFilterOpen, setIsFilterOpen } = useLayoutContext();
     const [isFilterActive, setIsFilterActive] = useState(false);
     const [error, setError] = useState('');
-    const { allHeroes, foundHeroes, setFoundHeroes, setAllHeroes } = useContext(HeroesContext);
+    const { allHeroes, foundHeroes, setFoundHeroes, setAllHeroes } =
+        useContext(HeroesContext);
 
     const navigate = useNavigate();
 
@@ -25,29 +27,34 @@ export function Home() {
     useEffect(() => {
         if (foundHeroes) return;
 
-        apiProvider.getHeroes()
-            .then(data => setAllHeroes(data))
-            .catch(error => {
+        apiProvider
+            .getHeroes()
+            .then((data) => setAllHeroes(data))
+            .catch((error) => {
                 setError('Произошла ошибка');
                 console.error(error);
             });
     }, [foundHeroes]);
 
-
     return (
         <>
-            {isFilterOpen && (
-                <FilterPanel
-                    onChangeHeroes={(members) => {
-                        setAllHeroes(members);
-                        setIsFilterActive(true);
-                    }}
-                    onClose={() => setIsFilterOpen(!isFilterOpen)}
-                />
-            )}
+            <FilterPanel
+                show={isFilterOpen}
+                onChangeHeroes={(members) => {
+                    setAllHeroes(members);
+                    setIsFilterActive(true);
+                }}
+                onClose={() => setIsFilterOpen(!isFilterOpen)}
+            />
 
             <div className={css.buttonsAndText}>
-                <div className={isFilterActive? css.buttonContainerActive : css.buttonContainer}>
+                <div
+                    className={
+                        isFilterActive
+                            ? css.buttonContainerActive
+                            : css.buttonContainer
+                    }
+                >
                     <Button
                         color={'red'}
                         text={'ПОИСК ГЕРОЯ'}
@@ -65,7 +72,13 @@ export function Home() {
                         <Button
                             color={!isFilterActive ? 'default' : 'red'}
                             text={isFilterActive ? 'ФИЛЬТР АКТИВЕН' : 'ФИЛЬТР'}
-                            icon={!isFilterActive ? <img src={filterIconPath}/> : <img src={filterIconActivePath} />}
+                            icon={
+                                !isFilterActive ? (
+                                    <img src={filterIconPath} />
+                                ) : (
+                                    <img src={filterIconActivePath} />
+                                )
+                            }
                             onClick={() => setIsFilterOpen(!isFilterOpen)}
                         />
                     )}
@@ -75,9 +88,11 @@ export function Home() {
                             color={'default'}
                             text={'ОЧИСТИТЬ ВСЁ'}
                             onClick={() => {
-                                fetch('https://book-memory-sections-out.itlabs.top/api/members')
-                                    .then(res => res.json())
-                                    .then(data => {
+                                fetch(
+                                    'https://book-memory-sections-out.itlabs.top/api/members'
+                                )
+                                    .then((res) => res.json())
+                                    .then((data) => {
                                         setAllHeroes(data);
                                         setIsFilterActive(false);
                                     });
@@ -86,26 +101,31 @@ export function Home() {
                     )}
                 </div>
 
-                {foundHeroes ? (<p className={css.text}>РЕЗУЛЬТАТЫ ПОИСКА <span className={css.count}>{foundHeroes.length}</span></p>) : (<p className={css.text}>СТЕНА ПАМЯТИ</p>)}
+                {foundHeroes ? (
+                    <p className={css.text}>
+                        РЕЗУЛЬТАТЫ ПОИСКА{' '}
+                        <span className={css.count}>{foundHeroes.length}</span>
+                    </p>
+                ) : (
+                    <p className={css.text}>СТЕНА ПАМЯТИ</p>
+                )}
                 <img src={wallOfMemoryPath} alt="stenapamyati" />
             </div>
 
             {error && <p className={css.error}>{error}</p>}
 
             <div className={css.veteransContainer}>
-                {!heroes && <p className={css.loading}>Загрузка...</p>}
+                {!heroes && <MoonLoader />}
 
                 {heroes && !heroes.length && <p>Нет результатов</p>}
 
                 {heroes && heroes?.length > 0 && (
                     <>
                         <div className={css.veteranFirst}>
-                            <HeroCard
-                                hero={heroes[0]}
-                            />
+                            <HeroCard hero={heroes[0]} />
                         </div>
                         <div className={css.veteransGrid}>
-                            {heroes.slice(1).map(hero => {
+                            {heroes.slice(1).map((hero) => {
                                 return <HeroCard key={hero.id} hero={hero} />;
                             })}
                         </div>
@@ -115,4 +135,3 @@ export function Home() {
         </>
     );
 }
-

@@ -5,6 +5,7 @@ import { API_BASE_URL, FALLBACK_IMAGE_URL } from '../../constans/constans.ts';
 import css from './hero.module.css';
 import { Button } from '../../UI/button/button.tsx';
 import MedalIcon from '../../../public/assets/medal.svg?react';
+import { MoonLoader } from 'react-spinners';
 
 const useLoadHero = (id: string) => {
     const [hero, setHero] = useState<HeroType | null>(null);
@@ -23,16 +24,18 @@ const useLoadHero = (id: string) => {
         setHero(null);
 
         fetch(`${API_BASE_URL}/${id}`)
-            .then(response => {
+            .then((response) => {
                 if (!response.ok) {
-                    throw new Error(`Ошибка загрузки: ${response.status} ${response.statusText}`);
+                    throw new Error(
+                        `Ошибка загрузки: ${response.status} ${response.statusText}`
+                    );
                 }
                 return response.json();
             })
             .then((data: HeroType) => {
                 setHero(data);
             })
-            .catch(err => {
+            .catch((err) => {
                 if (err instanceof Error) {
                     setError(err.message);
                 } else {
@@ -43,7 +46,6 @@ const useLoadHero = (id: string) => {
             .finally(() => {
                 setLoading(false);
             });
-
     }, [id]);
 
     return {
@@ -53,15 +55,12 @@ const useLoadHero = (id: string) => {
     };
 };
 
-
 export function HeroView() {
-
     const { id: _id } = useParams<{ id: string }>();
     const id = _id as string;
 
     const navigate = useNavigate();
     const { hero, loading, error } = useLoadHero(id);
-
 
     const handleNextHero = () => {
         const currentId = Number(id);
@@ -76,10 +75,14 @@ export function HeroView() {
 
     const renderBody = () => {
         if (loading) {
-            return <p className={`${css.loadingAndErrorText} ${css.loading}`}>Загрузка...</p>;
+            return <MoonLoader />;
         }
         if (error) {
-            return <p className={`${css.loadingAndErrorText} ${css.error}`}>Произошла ошибка</p>
+            return (
+                <p className={`${css.loadingAndErrorText} ${css.error}`}>
+                    Произошла ошибка
+                </p>
+            );
         }
 
         return (
@@ -88,36 +91,58 @@ export function HeroView() {
                 <div className={css.infoContainer}>
                     <div className={css.infoPlace}>
                         <p className={css.upText}>Год рождения</p>
-                        <p className={css.downText}>{hero?.yearStartAt ? `${hero?.yearStartAt} г.` : 'Неизвестно'}</p>
+                        <p className={css.downText}>
+                            {hero?.yearStartAt
+                                ? `${hero?.yearStartAt} г.`
+                                : 'Неизвестно'}
+                        </p>
                     </div>
                     <div className={css.infoPlace}>
                         <p className={css.upText}>Место рождения</p>
-                        <p className={css.downText}>{!hero?.city ? 'Неизвестно' : hero?.city}</p>
+                        <p className={css.downText}>
+                            {!hero?.city ? 'Неизвестно' : hero?.city}
+                        </p>
                     </div>
                 </div>
 
                 <div className={css.infoContainer}>
                     <div className={css.infoPlace}>
                         <p className={css.upText}>Звание</p>
-                        <p className={css.downText}>{hero?.ranks || 'Неизвестно'}</p>
+                        <p className={css.downText}>
+                            {hero?.ranks || 'Неизвестно'}
+                        </p>
                     </div>
                     <div className={css.infoPlace}>
                         <p className={css.upText}>Призван в армию</p>
-                        <p className={css.downText}>{!hero?.calledUponDate ? 'Неизвестно' : hero?.calledUponDate}</p>
+                        <p className={css.downText}>
+                            {!hero?.calledUponDate
+                                ? 'Неизвестно'
+                                : hero?.calledUponDate}
+                        </p>
                     </div>
                     <div className={css.infoPlace}>
                         <p className={css.upText}>Как погиб</p>
-                        <p className={css.downText}>{!hero?.howDie ? 'Неизвестно' : hero?.howDie}</p>
+                        <p className={css.downText}>
+                            {!hero?.howDie ? 'Неизвестно' : hero?.howDie}
+                        </p>
                     </div>
                 </div>
                 <div className={css.infoContainer}>
                     <div className={css.infoPlace}>
                         <p className={css.upText}>Место гибели (захоронение)</p>
-                        <p className={css.downText}>{!hero?.placeDeath ? 'Неизвестно' : hero?.placeDeath}</p>
+                        <p className={css.downText}>
+                            {!hero?.placeDeath
+                                ? 'Неизвестно'
+                                : hero?.placeDeath}
+                        </p>
                     </div>
                     <div className={css.infoPlace}>
                         <p className={css.upText}>Дата гибели</p>
-                        <p className={css.downText}>{ hero?.yearEndAt ? `${hero?.yearEndAt} г.` : 'Неизвестно'}</p>
+                        <p className={css.downText}>
+                            {hero?.yearEndAt
+                                ? `${hero?.yearEndAt} г.`
+                                : 'Неизвестно'}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -147,8 +172,10 @@ export function HeroView() {
                                 onClick={handleNextHero}
                             />
                         </div>
-                        <p className={css.friendsInfo}>Для стены памяти информация получена от родных, близких и друзей
-                            героев</p>
+                        <p className={css.friendsInfo}>
+                            Для стены памяти информация получена от родных,
+                            близких и друзей героев
+                        </p>
                     </div>
                 </div>
 
