@@ -21,6 +21,9 @@ export function Button(props: Props) {
     }else if (props.color === 'white') {
         classnames.push(styles.white);
     }
+    if (props.size === 'sm') {
+        classnames.push(styles.sm);
+    }
     if (props.size === 'md') {
         classnames.push(styles.md);
     }

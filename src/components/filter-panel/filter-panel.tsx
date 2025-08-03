@@ -1,9 +1,9 @@
 import css from './filter-panel.module.css';
-import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Button } from '../../UI/button/button.tsx';
 import type { Hero } from '../../types/hero-type.tsx';
 import { apiProvider } from '../../api-provider.ts';
+import RangeSlider from 'react-range-slider-input';
 
 type Props = {
     onClose: () => void;
@@ -52,16 +52,6 @@ export const FilterPanel = (props: Props) => {
 
     if (!props.show) return;
 
-    const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = +e.target.value;
-        if (value <= max) setMin(value);
-    };
-
-    const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = +e.target.value;
-        if (value >= min) setMax(value);
-    };
-
     const handleClose = () => {
         setAnimationClass(css.slideOut);
         setTimeout(() => {
@@ -86,7 +76,7 @@ export const FilterPanel = (props: Props) => {
             yearStart: min,
             yearEnd: max,
             ranks: selectedRanks,
-            letters: selectedLetters
+            letters: selectedLetters,
         };
         apiProvider.getHeroes(filters)
             .then(filteredHeroes => {
@@ -123,11 +113,13 @@ export const FilterPanel = (props: Props) => {
                 <div className={css.section}>
                     <div className={css.sliderPlaceholder} />
                     <p className={css.label}>ДАТА РОЖДЕНИЯ</p>
-                    <div className={css.inputs}>
-                        <input type="range" min={filters.yearStart} max={filters.yearEnd} value={min}
-                               onChange={handleMinChange} style={{ flex: 1 }} />
-                        <input type="range" min={filters.yearStart} max={filters.yearEnd} value={max}
-                               onChange={handleMaxChange} style={{ flex: 1 }} />
+                    <div className={css.input}>
+                        <RangeSlider
+                            min={filters.yearStart} max={filters.yearEnd} value={[min, max]}
+                            onInput={([newMin, newMax]) => {
+                                setMin(newMin);
+                                setMax(newMax);
+                            }} />
                     </div>
                     <div className={css.dateInputs}>
                         <input type="text" value={min} onChange={(e) => setMin(+e.target.value)}

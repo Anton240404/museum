@@ -58,6 +58,7 @@ export function Home() {
                     <Button
                         color={'red'}
                         text={'ПОИСК ГЕРОЯ'}
+                        size={'sm'}
                         icon={<img src={searchIconPath} />}
                         onClick={() => navigate('/search')}
                     />
@@ -65,12 +66,14 @@ export function Home() {
                     {foundHeroes ? (
                         <Button
                             color={'default'}
+                            size={'sm'}
                             text={'ОЧИСТИТЬ ВСЁ'}
                             onClick={() => setFoundHeroes(null)}
                         />
                     ) : (
                         <Button
                             color={!isFilterActive ? 'default' : 'red'}
+                            size={'sm'}
                             text={isFilterActive ? 'ФИЛЬТР АКТИВЕН' : 'ФИЛЬТР'}
                             icon={
                                 !isFilterActive ? (
@@ -109,7 +112,7 @@ export function Home() {
                 ) : (
                     <p className={css.text}>СТЕНА ПАМЯТИ</p>
                 )}
-                <img src={wallOfMemoryPath} alt="stenapamyati" />
+                <img className={css.wallIcon} src={wallOfMemoryPath} alt="stenapamyati" />
             </div>
 
             {error && <p className={css.error}>{error}</p>}

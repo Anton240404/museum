@@ -180,13 +180,11 @@ export function HeroView() {
                 </div>
 
                 {!error && hero && (
-                    <div>
                         <img
                             className={css.heroImage}
                             src={hero?.image || FALLBACK_IMAGE_URL}
                             alt={hero?.name}
                         />
-                    </div>
                 )}
             </div>
         </>

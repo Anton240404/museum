@@ -38,35 +38,10 @@
     margin-bottom: 44px;
 }
 
-.inputs {
+.input {
     display: flex;
     margin-bottom: 20px;
     gap: 12px;
-}
-
-input[type="range"] {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    background: transparent;
-    cursor: pointer;
-}
-input[type="range"]::-webkit-slider-runnable-track {
-    height: 8px;
-    background: rgba(81, 79, 77, 1);
-}
-input[type="range"]::-webkit-slider-thumb{
-    -webkit-appearance: none;
-    height: 8px;
-    background: rgba(81, 79, 77, 1);
-}
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    margin-top: -12px;
-    height: 32px;
-    width: 32px;
-    background: rgba(207, 51, 55, 1);
-    border-radius: 50%;
 }
 
 input[type="checkbox"] {
@@ -202,3 +177,5 @@ input[type="checkbox"]:checked {
     gap: 20px;
     width: 100%;
 }
+
+

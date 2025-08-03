@@ -8,6 +8,13 @@
 .heroImage {
     width: 428px;
     height: 571px;
+    object-fit: cover;
+    flex-shrink: 0;
+    @media (width < 1200px) {
+        width: 234px;
+        height: 330px;
+
+    }
 }
 
 .line {
@@ -19,6 +26,7 @@
 }
 .heroInfo{
     margin-bottom: 40px;
+    max-width: 60%;
 }
 
 .textName {
@@ -26,6 +34,9 @@
     font-size: 48px;
     line-height: 100%;
     color: rgba(43, 42, 41, 1);
+    @media (width < 1200px) {
+        font-size: 32px;
+    }
 }
 .infoContainer{
     display: flex;
@@ -41,6 +52,10 @@
     letter-spacing: 0;
     color: rgba(121, 36, 38, 1);
     margin-top: 40px;
+
+    @media (width < 1200px) {
+        font-size: 24px;
+    }
 }
 .downText{
     font-weight: 400;
@@ -48,6 +63,10 @@
     line-height: 100%;
     letter-spacing: 0;
     color: rgba(43, 42, 41, 1);
+
+    @media (width < 1200px) {
+        font-size: 18px;
+    }
 }
 .infoPlace{
     display: flex;
@@ -68,6 +87,7 @@
     line-height: 100%;
     letter-spacing: 0;
     color: rgba(43, 42, 41, 1);
+    white-space: nowrap;
 }
 .loadingAndErrorText {
     font-size: 45px;
@@ -85,3 +105,11 @@
     color: #d32f2f;
 }
 
+@media (max-width: 768px) {
+    .buttonsContainer button {
+        height: 69px;
+        width: 300px;
+        font-size: 16px;
+        letter-spacing: 1.5px;
+    }
+}
