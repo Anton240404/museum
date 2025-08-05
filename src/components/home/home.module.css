@@ -23,7 +23,7 @@
     pointer-events: none;
     transition: opacity 0.3s ease-out;
 }
-.header{
+.header {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -84,7 +84,6 @@
     margin-bottom: 40px;
     margin-top: 51px;
     white-space: nowrap;
-
 }
 .buttonContainer {
     display: grid;
@@ -142,10 +141,14 @@
     top: 0;
     bottom: 0;
     width: 100px;
-    background: linear-gradient(270deg, #E4D4B8 0%, rgba(228, 212, 184, 0) 100%);
+    background: linear-gradient(
+        270deg,
+        #e4d4b8 0%,
+        rgba(228, 212, 184, 0) 100%
+    );
     pointer-events: none;
 }
-.veteranFirst{
+.veteranFirst {
     max-width: 428px;
     max-height: 571px;
     object-fit: cover;
@@ -172,4 +175,3 @@
 .filter {
     background: rgba(255, 255, 255, 1);
 }
-

@@ -11,4 +11,3 @@ export type Hero = {
     city: string;
     placeDeath: string;
 };
-

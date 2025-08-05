@@ -18,13 +18,10 @@
     }
 }
 
-
 .white {
     border: 1px solid rgba(255, 255, 255, 1);
     color: rgba(255, 255, 255, 1);
     background-color: transparent;
-
-
 }
 
 .red {
@@ -44,7 +41,7 @@
     justify-content: flex-start;
 }
 
-.sm{
+.sm {
     width: 280px;
     height: 69px;
     @media (width < 1200px) {
@@ -60,5 +57,4 @@
 .xl {
     width: 428px;
     height: 69px;
-
 }

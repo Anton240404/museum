@@ -112,7 +112,11 @@ export function Home() {
                 ) : (
                     <p className={css.text}>СТЕНА ПАМЯТИ</p>
                 )}
-                <img className={css.wallIcon} src={wallOfMemoryPath} alt="stenapamyati" />
+                <img
+                    className={css.wallIcon}
+                    src={wallOfMemoryPath}
+                    alt="stenapamyati"
+                />
             </div>
 
             {error && <p className={css.error}>{error}</p>}

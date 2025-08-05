@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { HeroesContext } from '../../heroes-context.tsx';
 import { apiProvider } from '../../api-provider.ts';
 
-
 export function Search() {
     const [value, setValue] = useState('');
     const [showKeyboard, setShowKeyboard] = useState(false);
@@ -20,12 +19,13 @@ export function Search() {
         if (!value.trim()) {
             return;
         }
-        apiProvider.getHeroes({ name: value })
-            .then(filteredHeroes => {
+        apiProvider
+            .getHeroes({ name: value })
+            .then((filteredHeroes) => {
                 setFoundHeroes(filteredHeroes);
                 navigate('/');
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('Ошибка при применении фильтров:', error);
                 setError('Не удалось загрузить данные. Попробуйте еще раз.');
             });
@@ -59,10 +59,11 @@ export function Search() {
         return <p className={css.error}>{error}</p>;
     }
 
-
     return (
         <>
-            <div className={`${css.searchInputWrapper} ${showKeyboard ? css.keyboardVisible : ''}`}>
+            <div
+                className={`${css.searchInputWrapper} ${showKeyboard ? css.keyboardVisible : ''}`}
+            >
                 <h2 className={css.searchHero}>Поиск по базе героев</h2>
                 <div className={css.searchInputContainer}>
                     <input
@@ -74,7 +75,9 @@ export function Search() {
                     />
                     <SearchIcon className={css.searchIcon} />
                 </div>
-                <div className={`${css.buttonWrapper} ${showKeyboard ? css.keyboardMode : ''}`}>
+                <div
+                    className={`${css.buttonWrapper} ${showKeyboard ? css.keyboardMode : ''}`}
+                >
                     <Button
                         color={'white'}
                         text={'НА ГЛАВНУЮ'}

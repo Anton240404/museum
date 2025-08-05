@@ -5,10 +5,10 @@ import { FALLBACK_IMAGE_URL } from '../../constans/constans.ts';
 import css from './hero-card.module.css';
 
 type Props = {
-    hero: Hero
-}
+    hero: Hero;
+};
 
-export function HeroCard(props:Props) {
+export function HeroCard(props: Props) {
     const navigate = useNavigate();
 
     if (!props.hero) {
@@ -29,11 +29,3 @@ export function HeroCard(props:Props) {
         </div>
     );
 }
-
-
-
-
-
-
-
-

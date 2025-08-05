@@ -2,7 +2,8 @@
     max-width: 500px;
     height: 100vh;
     padding: 24px;
-    background: rgba(242, 231, 210, 1) url('/public/assets/bg_filtrs1.png') no-repeat center;
+    background: rgba(242, 231, 210, 1) url('/public/assets/bg_filtrs1.png')
+        no-repeat center;
     position: fixed;
     left: 0;
     top: 0;
@@ -23,7 +24,6 @@
 
 .close:active {
     transform: scale(0.9);
-
 }
 
 .title {
@@ -44,7 +44,7 @@
     gap: 12px;
 }
 
-input[type="checkbox"] {
+input[type='checkbox'] {
     -webkit-appearance: none;
     appearance: none;
     margin: 0;
@@ -54,10 +54,9 @@ input[type="checkbox"] {
     cursor: pointer;
     position: relative;
     transition: background-color 0.2s;
-
 }
 
-input[type="checkbox"]:checked {
+input[type='checkbox']:checked {
     background-color: rgba(207, 51, 55, 1);
     border-color: rgba(207, 51, 55, 1);
     background-image: url('/public/assets/check-mark.svg');
@@ -80,7 +79,7 @@ input[type="checkbox"]:checked {
     height: 4px;
     border-radius: 2px;
     margin-bottom: 44px;
-    border-bottom: 1px solid rgba(139, 135, 133, 1)
+    border-bottom: 1px solid rgba(139, 135, 133, 1);
 }
 
 .dateInputs {
@@ -104,7 +103,6 @@ input[type="checkbox"]:checked {
     letter-spacing: 2.8px;
     text-align: center;
     color: rgba(81, 79, 77, 1);
-
 }
 
 .showAllButton {
@@ -145,11 +143,9 @@ input[type="checkbox"]:checked {
     animation: slideIn 0.3s ease-out forwards;
 }
 
-
 .slideOut {
     animation: slideOut 0.3s ease-in forwards;
 }
-
 
 @keyframes slideIn {
     from {
@@ -159,7 +155,6 @@ input[type="checkbox"]:checked {
         transform: translateX(0);
     }
 }
-
 
 @keyframes slideOut {
     from {
@@ -177,5 +172,3 @@ input[type="checkbox"]:checked {
     gap: 20px;
     width: 100%;
 }
-
-

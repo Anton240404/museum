@@ -2,7 +2,7 @@ import styles from './button.module.css';
 import type { ReactNode } from 'react';
 
 type Props = {
-    color: | 'default' | 'red' | 'white';
+    color: 'default' | 'red' | 'white';
     onClick?: () => void;
     text: string;
     disabled?: boolean;
@@ -18,7 +18,7 @@ export function Button(props: Props) {
         classnames.push(styles.default);
     } else if (props.color === 'red') {
         classnames.push(styles.red);
-    }else if (props.color === 'white') {
+    } else if (props.color === 'white') {
         classnames.push(styles.white);
     }
     if (props.size === 'sm') {
@@ -31,7 +31,6 @@ export function Button(props: Props) {
         classnames.push(styles.xl);
     }
 
-
     return (
         <>
             <button
@@ -39,7 +38,11 @@ export function Button(props: Props) {
                 disabled={props.disabled}
                 onClick={() => props.onClick?.()}
                 className={classnames.join(' ')}
-            >   {props.icon && <span className={styles.icon}>{props.icon}</span>}
+            >
+                {' '}
+                {props.icon && (
+                    <span className={styles.icon}>{props.icon}</span>
+                )}
                 {props.text}
             </button>
         </>

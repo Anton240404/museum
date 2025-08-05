@@ -1,4 +1,4 @@
-import styles from './reset.module.css';
+import './reset.css';
 import { Outlet, Route, Routes } from 'react-router';
 import { Home } from './components/home/home.tsx';
 import { HeroView } from './components/hero/hero.tsx';
@@ -17,8 +17,10 @@ function App() {
     const [foundHeroes, setFoundHeroes] = useState<Hero[] | null>(null);
 
     return (
-        <div className={styles.reset}>
-            <HeroesContext value={{ allHeroes, foundHeroes, setFoundHeroes, setAllHeroes }}>
+        <div>
+            <HeroesContext
+                value={{ allHeroes, foundHeroes, setFoundHeroes, setAllHeroes }}
+            >
                 <Routes>
                     <Route element={<Layout />}>
                         <Route path="/" element={<Home />} />
@@ -32,21 +34,33 @@ function App() {
 }
 
 function Header(props: { textColor?: 'white' | 'black' }) {
-    return <div className={css.header}>
-        <img className={css.logo} src="/assets/title-museum.png" alt="logo" />
-        <div>
-            <h1 className={clsx({
-                [css.titleHeaderWhite]: props.textColor === 'white',
-                [css.titleHeaderBlack]: props.textColor === 'black',
-            })}>Музей Боевой и Трудовой Славы </h1>
-            <h1
-                className={clsx({
-                    [css.subtitleHeaderWhite]: props.textColor === 'white',
-                    [css.subtitleHeaderBlack]: props.textColor === 'black',
-                })}
-            >город Александров </h1>
+    return (
+        <div className={css.header}>
+            <img
+                className={css.logo}
+                src="/assets/title-museum.png"
+                alt="logo"
+            />
+            <div>
+                <h1
+                    className={clsx({
+                        [css.titleHeaderWhite]: props.textColor === 'white',
+                        [css.titleHeaderBlack]: props.textColor === 'black',
+                    })}
+                >
+                    Музей Боевой и Трудовой Славы{' '}
+                </h1>
+                <h1
+                    className={clsx({
+                        [css.subtitleHeaderWhite]: props.textColor === 'white',
+                        [css.subtitleHeaderBlack]: props.textColor === 'black',
+                    })}
+                >
+                    город Александров{' '}
+                </h1>
+            </div>
         </div>
-    </div>;
+    );
 }
 
 function SearchLayout() {

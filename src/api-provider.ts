@@ -6,7 +6,7 @@ type Filters = {
     yearEnd?: number;
     ranks?: string[];
     letters?: string[];
-}
+};
 
 export const apiProvider = {
     getHeroes: (filters?: Filters): Promise<Hero[]> => {
@@ -39,10 +39,9 @@ export const apiProvider = {
             }
         }
 
-        return fetch(url)
-            .then(resp => {
-                if (!resp.ok) throw new Error(`Ошибка : ${resp.status}`);
-                return resp.json();
-            });
+        return fetch(url).then((resp) => {
+            if (!resp.ok) throw new Error(`Ошибка : ${resp.status}`);
+            return resp.json();
+        });
     },
 };

@@ -11,13 +11,13 @@ const keyIcons = {
 };
 
 const keyConfigs = {
-    'Пробел': styles.space,
+    Пробел: styles.space,
     'word-delete': styles.wordDelete,
     'word-arrow': styles.wordArrow,
     '&123': styles.numbers,
-    'Ввод': styles.enter,
-    'АБВ': styles.translate
-}
+    Ввод: styles.enter,
+    АБВ: styles.translate,
+};
 
 type Props = {
     onKeyPress: (value: string) => void;
@@ -44,10 +44,11 @@ export function VirtualKeyboard(props: Props) {
             case 'Пробел':
                 props.onKeyPress(key);
                 break;
-            default:
-                { const value = isUppercase ? key.toUpperCase() : key;
+            default: {
+                const value = isUppercase ? key.toUpperCase() : key;
                 props.onKeyPress(value);
-                if (isUppercase) setIsUppercase(false); }
+                if (isUppercase) setIsUppercase(false);
+            }
         }
     };
 
@@ -61,7 +62,8 @@ export function VirtualKeyboard(props: Props) {
 
                         const IconComponent = keyIcons[key as KeyIcon];
                         const customClass = keyConfigs[key as KeyConfig] || '';
-                        const isActiveShift = key === 'word-arrow' && isUppercase;
+                        const isActiveShift =
+                            key === 'word-arrow' && isUppercase;
 
                         return (
                             <button
@@ -71,8 +73,10 @@ export function VirtualKeyboard(props: Props) {
                             >
                                 {IconComponent ? (
                                     <IconComponent />
+                                ) : isUppercase ? (
+                                    key.toUpperCase()
                                 ) : (
-                                    isUppercase ? key.toUpperCase() : key
+                                    key
                                 )}
                             </button>
                         );

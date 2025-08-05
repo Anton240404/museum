@@ -4,19 +4,20 @@ import { Button } from '../../UI/button/button.tsx';
 import type { Hero } from '../../types/hero-type.tsx';
 import { apiProvider } from '../../api-provider.ts';
 import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
 
 type Props = {
     onClose: () => void;
     onChangeHeroes: (heroes: Hero[]) => void;
-    show: boolean
-}
+    show: boolean;
+};
 
 type GetFiltersResponse = {
-    yearStart: number
-    yearEnd: number
-    rank: string[]
-    word: string[]
-}
+    yearStart: number;
+    yearEnd: number;
+    rank: string[];
+    word: string[];
+};
 
 export const FilterPanel = (props: Props) => {
     const [min, setMin] = useState(0);
@@ -31,7 +32,9 @@ export const FilterPanel = (props: Props) => {
     const [showAllRanks, setShowAllRanks] = useState(false);
 
     useEffect(() => {
-        fetch('https://book-memory-sections-out.itlabs.top/api/members/filters/get')
+        fetch(
+            'https://book-memory-sections-out.itlabs.top/api/members/filters/get'
+        )
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -60,9 +63,9 @@ export const FilterPanel = (props: Props) => {
     };
 
     const handleRankChange = (rank: string) => {
-        setSelectedRanks(prevRanks => {
+        setSelectedRanks((prevRanks) => {
             if (prevRanks.includes(rank)) {
-                return prevRanks.filter(r => r !== rank);
+                return prevRanks.filter((r) => r !== rank);
             } else {
                 return [...prevRanks, rank];
             }
@@ -78,12 +81,13 @@ export const FilterPanel = (props: Props) => {
             ranks: selectedRanks,
             letters: selectedLetters,
         };
-        apiProvider.getHeroes(filters)
-            .then(filteredHeroes => {
+        apiProvider
+            .getHeroes(filters)
+            .then((filteredHeroes) => {
                 props.onChangeHeroes(filteredHeroes);
                 props.onClose();
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('Ошибка при применении фильтров:', error);
                 setSearchError('Произошла ошибка при поиске');
             });
@@ -115,17 +119,30 @@ export const FilterPanel = (props: Props) => {
                     <p className={css.label}>ДАТА РОЖДЕНИЯ</p>
                     <div className={css.input}>
                         <RangeSlider
-                            min={filters.yearStart} max={filters.yearEnd} value={[min, max]}
+                            min={filters.yearStart}
+                            max={filters.yearEnd}
+                            value={[min, max]}
                             onInput={([newMin, newMax]) => {
                                 setMin(newMin);
                                 setMax(newMax);
-                            }} />
+                            }}
+                        />
                     </div>
                     <div className={css.dateInputs}>
-                        <input type="text" value={min} onChange={(e) => setMin(+e.target.value)}
-                               className={css.dateInput} style={{ flex: 1 }} />
-                        <input type="text" value={max} onChange={(e) => setMax(+e.target.value)}
-                               className={css.dateInput} style={{ flex: 1 }} />
+                        <input
+                            type="text"
+                            value={min}
+                            onChange={(e) => setMin(+e.target.value)}
+                            className={css.dateInput}
+                            style={{ flex: 1 }}
+                        />
+                        <input
+                            type="text"
+                            value={max}
+                            onChange={(e) => setMax(+e.target.value)}
+                            className={css.dateInput}
+                            style={{ flex: 1 }}
+                        />
                     </div>
                 </div>
 
@@ -147,7 +164,6 @@ export const FilterPanel = (props: Props) => {
                         );
                     })}
 
-
                     {filters.rank.length > 3 && (
                         <button
                             className={css.showAllButton}
@@ -165,15 +181,27 @@ export const FilterPanel = (props: Props) => {
                             <button
                                 key={letter}
                                 onClick={() => {
-                                    const selected = selectedLetters.includes(letter);
+                                    const selected =
+                                        selectedLetters.includes(letter);
 
                                     if (selected) {
-                                        setSelectedLetters(selectedLetters.filter((l) => l !== letter));
+                                        setSelectedLetters(
+                                            selectedLetters.filter(
+                                                (l) => l !== letter
+                                            )
+                                        );
                                     } else {
-                                        setSelectedLetters([...selectedLetters, letter]);
+                                        setSelectedLetters([
+                                            ...selectedLetters,
+                                            letter,
+                                        ]);
                                     }
                                 }}
-                                className={`${css.letterButton} ${selectedLetters.includes(letter) ? css.activeLetter : ''}`}
+                                className={`${css.letterButton} ${
+                                    selectedLetters.includes(letter)
+                                        ? css.activeLetter
+                                        : ''
+                                }`}
                             >
                                 {letter}
                             </button>
@@ -203,7 +231,12 @@ export const FilterPanel = (props: Props) => {
         <div className={`${css.container} ${animationClass}`}>
             <div className={css.header}>
                 <h2 className={css.title}>ФИЛЬТРЫ</h2>
-                <img className={css.close} src="/assets/close.svg" alt="close" onClick={handleClose} />
+                <img
+                    className={css.close}
+                    src="/assets/close.svg"
+                    alt="close"
+                    onClick={handleClose}
+                />
             </div>
             {renderBody()}
         </div>
