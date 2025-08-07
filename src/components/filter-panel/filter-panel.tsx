@@ -1,10 +1,10 @@
-import css from './filter-panel.module.css';
 import { useEffect, useState } from 'react';
 import { Button } from '../../UI/button/button.tsx';
 import type { Hero } from '../../types/hero-type.tsx';
 import { apiProvider } from '../../api-provider.ts';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
+import css from './filter-panel.module.css';
 
 type Props = {
     onClose: () => void;

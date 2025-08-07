@@ -33,6 +33,10 @@
 .logo {
     height: 180px;
     width: 86px;
+    @media (width < 800px) {
+        height: 100px;
+        width: 50px;
+    }
 }
 
 .titleHeader {
@@ -121,7 +125,6 @@
     gap: 16px;
     align-items: flex-start;
     overflow-x: auto;
-    overflow-y: hidden;
     padding-bottom: 15px;
 }
 
@@ -174,4 +177,7 @@
 }
 .filter {
     background: rgba(255, 255, 255, 1);
+}
+.icon{
+    text-align: center
 }

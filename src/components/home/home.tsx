@@ -90,6 +90,7 @@ export function Home() {
                         <Button
                             color={'default'}
                             text={'ОЧИСТИТЬ ВСЁ'}
+                            size={'sm'}
                             onClick={() => {
                                 fetch(
                                     'https://book-memory-sections-out.itlabs.top/api/members'
@@ -120,9 +121,9 @@ export function Home() {
             </div>
 
             {error && <p className={css.error}>{error}</p>}
+            {!heroes && <MoonLoader />}
 
             <div className={css.veteransContainer}>
-                {!heroes && <MoonLoader />}
 
                 {heroes && !heroes.length && <p>Нет результатов</p>}
 

@@ -33,5 +33,5 @@ button {
 }
 
 .range-slider .range-slider__range {
-    background-color: red;
+    background-color: red; !important;
 }

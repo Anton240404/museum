@@ -172,3 +172,20 @@ input[type='checkbox']:checked {
     gap: 20px;
     width: 100%;
 }
+
+.input :global(.range-slider .range-slider__range) {
+    background-color: #CF3337; /* Красный цвет из макета */
+    height: 8px;
+}
+
+.input :global(.range-slider .range-slider__thumb) {
+    background-color: #CF3337;
+    border-color: #CF3337;
+    height: 32px;
+    width: 32px;
+}
+
+.input :global(.range-slider .range-slider__track) {
+    height: 8px;
+    background: #8B8785;
+}
