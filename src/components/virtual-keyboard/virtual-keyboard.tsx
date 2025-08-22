@@ -11,12 +11,12 @@ const keyIcons = {
 };
 
 const keyConfigs = {
-    Пробел: styles.space,
+    'Пробел': styles.space,
     'word-delete': styles.wordDelete,
     'word-arrow': styles.wordArrow,
     '&123': styles.numbers,
-    Ввод: styles.enter,
-    АБВ: styles.translate,
+    'Ввод': styles.enter,
+    'АБВ': styles.translate,
 };
 
 type Props = {
@@ -42,7 +42,7 @@ export function VirtualKeyboard(props: Props) {
             case 'word-delete':
             case 'Ввод':
             case 'Пробел':
-                props.onKeyPress(key);
+                props.onKeyPress(' ');
                 break;
             default: {
                 const value = isUppercase ? key.toUpperCase() : key;

@@ -27,7 +27,7 @@ const useLoadHero = (id: string) => {
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(
-                        `Ошибка загрузки: ${response.status} ${response.statusText}`
+                        `Ошибка загрузки: ${response.status} ${response.statusText}`,
                     );
                 }
                 return response.json();
@@ -154,7 +154,9 @@ export function HeroView() {
             <div className={css.line}></div>
             <div className={css.container}>
                 <div className={css.heroInfo}>
-                    {renderBody()}
+                    <div className={css.bodyContainer}>
+                        {renderBody()}
+                    </div>
 
                     <div>
                         <div className={css.buttonsContainer}>

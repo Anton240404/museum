@@ -112,3 +112,6 @@
         letter-spacing: 1.5px;
     }
 }
+.bodyContainer {
+    min-height: 380px;
+}

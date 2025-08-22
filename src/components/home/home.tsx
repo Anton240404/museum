@@ -12,6 +12,7 @@ import { useLayoutContext } from '../layout-context/layout-context.tsx';
 import { HeroesContext } from '../../heroes-context.tsx';
 import { apiProvider } from '../../api-provider.ts';
 import { MoonLoader } from 'react-spinners';
+import clsx from 'clsx';
 
 export function Home() {
     const { isFilterOpen, setIsFilterOpen } = useLayoutContext();
@@ -44,20 +45,20 @@ export function Home() {
                     setAllHeroes(members);
                     setIsFilterActive(true);
                 }}
-                onClose={() => setIsFilterOpen(!isFilterOpen)}
+                onClose={() => setIsFilterOpen(false)}
             />
 
             <div className={css.buttonsAndText}>
                 <div
-                    className={
-                        isFilterActive
-                            ? css.buttonContainerActive
-                            : css.buttonContainer
-                    }
+                    className={clsx({
+                        [css.buttonContainer]: true,
+                        [css.buttonContainerActive]: isFilterActive,
+                    })}
                 >
                     <Button
                         color={'red'}
                         text={'ПОИСК ГЕРОЯ'}
+                        className={css.buttonText}
                         size={'sm'}
                         icon={<img src={searchIconPath} />}
                         onClick={() => navigate('/search')}
@@ -68,11 +69,13 @@ export function Home() {
                             color={'default'}
                             size={'sm'}
                             text={'ОЧИСТИТЬ ВСЁ'}
+                            className={css.buttonText}
                             onClick={() => setFoundHeroes(null)}
                         />
                     ) : (
                         <Button
                             color={!isFilterActive ? 'default' : 'red'}
+                            className={css.buttonText}
                             size={'sm'}
                             text={isFilterActive ? 'ФИЛЬТР АКТИВЕН' : 'ФИЛЬТР'}
                             icon={
@@ -124,17 +127,19 @@ export function Home() {
             {!heroes && <MoonLoader />}
 
             <div className={css.veteransContainer}>
-
                 {heroes && !heroes.length && <p>Нет результатов</p>}
 
                 {heroes && heroes?.length > 0 && (
                     <>
-                        <div className={css.veteranFirst}>
-                            <HeroCard hero={heroes[0]} />
-                        </div>
                         <div className={css.veteransGrid}>
-                            {heroes.slice(1).map((hero) => {
-                                return <HeroCard key={hero.id} hero={hero} />;
+                            {[...heroes, ...heroes, ...heroes].map((hero) => {
+                                return (
+                                    <HeroCard
+                                        key={hero.id}
+                                        hero={hero}
+                                        className={css.card}
+                                    />
+                                );
                             })}
                         </div>
                     </>

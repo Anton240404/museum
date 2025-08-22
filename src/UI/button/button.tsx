@@ -1,5 +1,6 @@
+import clsx from 'clsx';
 import styles from './button.module.css';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 type Props = {
     color: 'default' | 'red' | 'white';
@@ -9,6 +10,8 @@ type Props = {
     type?: 'submit' | 'button' | 'reset';
     size?: 'sm' | 'md' | 'xl';
     icon?: ReactNode;
+    style?: CSSProperties;
+    className?: string;
 };
 
 export function Button(props: Props) {
@@ -34,6 +37,7 @@ export function Button(props: Props) {
     return (
         <>
             <button
+                style={props.style}
                 type={props.type || 'button'}
                 disabled={props.disabled}
                 onClick={() => props.onClick?.()}
@@ -43,7 +47,9 @@ export function Button(props: Props) {
                 {props.icon && (
                     <span className={styles.icon}>{props.icon}</span>
                 )}
-                {props.text}
+                <span className={clsx(styles.text, props.className)}>
+                    {props.text}
+                </span>
             </button>
         </>
     );

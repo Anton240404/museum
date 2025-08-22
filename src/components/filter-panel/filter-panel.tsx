@@ -20,6 +20,8 @@ type GetFiltersResponse = {
 };
 
 export const FilterPanel = (props: Props) => {
+    if (!props.show) return null;
+
     const [min, setMin] = useState(0);
     const [max, setMax] = useState(0);
     const [selectedRanks, setSelectedRanks] = useState<string[]>([]);
@@ -30,6 +32,12 @@ export const FilterPanel = (props: Props) => {
     const [error, setError] = useState('');
     const [searchError, setSearchError] = useState('');
     const [showAllRanks, setShowAllRanks] = useState(false);
+
+    useEffect(() => {
+        if (props.show) {
+            setAnimationClass(css.slideIn);
+        }
+    }, [props.show]);
 
     useEffect(() => {
         fetch(
@@ -53,7 +61,7 @@ export const FilterPanel = (props: Props) => {
             });
     }, []);
 
-    if (!props.show) return;
+
 
     const handleClose = () => {
         setAnimationClass(css.slideOut);
@@ -101,6 +109,7 @@ export const FilterPanel = (props: Props) => {
         setSelectedRanks([]);
         setSearchError('');
         setSelectedLetters([]);
+        handleClose();
     };
 
     function renderBody() {
