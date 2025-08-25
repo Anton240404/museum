@@ -40,7 +40,11 @@ export function VirtualKeyboard(props: Props) {
                 setIsUppercase((prev) => !prev);
                 break;
             case 'word-delete':
+                props.onKeyPress('word-delete');
+                break;
             case 'Ввод':
+                props.onKeyPress('Ввод');
+                break;
             case 'Пробел':
                 props.onKeyPress(' ');
                 break;

@@ -132,7 +132,7 @@ export function Home() {
                 {heroes && heroes?.length > 0 && (
                     <>
                         <div className={css.veteransGrid}>
-                            {[...heroes, ...heroes, ...heroes].map((hero) => {
+                            {[...heroes].map((hero) => {
                                 return (
                                     <HeroCard
                                         key={hero.id}
